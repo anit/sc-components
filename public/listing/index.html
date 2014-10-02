@@ -35,7 +35,7 @@
         </h1>
       </div>
       <p class="lead">
-        Listing component
+        Listing component <code>&lt;sc-listing&gt;</code>
       </p>
 
       <div ng-app="sc-listing-demo">
@@ -43,11 +43,11 @@
           <div class="col-md-8">
             <a href="" ng-click="sort()">sort</a>
             <br><br>
-            <listing
+            <sc-listing
               items="items"
               on-item-click="showItem"
               template-url="/templates/list-item.html">
-            </listing>
+            </sc-listing>
           </div>
           <div class="col-md-4" ng-if="item">
             You clicked on {{ item.name }}

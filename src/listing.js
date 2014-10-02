@@ -1,4 +1,5 @@
 'use strict';
+// jshint unused: false
 
 /*!
  * sc-listing
@@ -22,7 +23,7 @@
 
 angular.module('sc-listing', [])
 
-.directive('listing', function ($compile, $parse, $http, $q, $templateCache) {
+.directive('scListing', function ($compile, $parse, $http, $q, $templateCache) {
   return {
     restrict: 'E',
     scope: {
