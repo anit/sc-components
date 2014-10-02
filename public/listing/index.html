@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+  <!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+  <!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+  <!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+  <!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>ng-list</title>
+    <meta name="description" content="a simple angular listing">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/index.css" />
+
+    <!-- Scripts -->
+    <script src="/components/angular/angular.js"></script>
+    <script src="/listing.js"></script>
+
+    <!-- Listing -->
+    <script src="/listing/index.js"></script>
+    <link rel="stylesheet" href="/listing/index.css" />
+  </head>
+  <body>
+    <!--[if lt IE 7]>
+        <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+    <![endif]-->
+
+    <div class="container">
+      <div class="page-header">
+        <h1>
+          sc-components
+          <a class="pull-right" href="/">back</a>
+        </h1>
+      </div>
+      <p class="lead">
+        Listing component
+      </p>
+
+      <div ng-app="sc-listing-demo">
+        <div class="row" ng-controller="ListCtrl">
+          <div class="col-md-8">
+            <a href="" ng-click="sort()">sort</a>
+            <br><br>
+            <listing
+              items="items"
+              on-item-click="showItem"
+              template-url="/templates/list-item.html">
+            </listing>
+          </div>
+          <div class="col-md-4" ng-if="item">
+            You clicked on {{ item.name }}
+            <br>
+            whose index is {{ index }}
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="footer">
+      <div class="container">
+        <p class="text-muted">MIT</p>
+      </div>
+    </div>
+  </body>
+</html>
