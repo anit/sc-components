@@ -4,6 +4,7 @@
   "description": "a simple listing in angularjs",
   "main": "public/index.js",
   "dependencies": {
+    "sleep": "^1.1.8"
   },
   "devDependencies": {
     "gulp": "^3.8.8",

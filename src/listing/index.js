@@ -28,7 +28,8 @@ angular.module('sc-listing', [])
     restrict: 'E',
     scope: {
       items: '=',
-      onItemClick: '&'
+      onItemClick: '&',
+      promise: '='
     },
     compile: function (element, attrs) {
       var deferred = $q.defer();
@@ -49,15 +50,13 @@ angular.module('sc-listing', [])
 
       return function (scope, element, attrs) {
         promise.then(function (res) {
-          var itemTpl = res.getter
-            ? res.getter(scope)
-            : res.html;
+          var itemTpl = (res.getter && res.getter(scope)) || res.html;
 
           scope.onItemClick = scope.onItemClick();
 
           var template = [
             '<ul class="list">',
-            '  <li class="list-item" ng-repeat="item in items" ng-click="onItemClick($index, item)">',
+            '  <li class="list-item" ng-repeat="item in items" ng-click="onItemClick(item, $index)">',
             '    '+ (itemTpl || '{{ item | json }}') +'',
             '  </li>',
             '</ul>'

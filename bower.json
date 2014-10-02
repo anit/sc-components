@@ -18,5 +18,9 @@
   ],
   "devDependencies": {
     "angular": "~1.2.25"
+  },
+  "dependencies": {
+    "angular-resource": "~1.2.26",
+    "angular-busy": "~4.1.0"
   }
 }
