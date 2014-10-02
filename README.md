@@ -1,6 +1,6 @@
 ## sc-components
 
-Simple UI components that we reuse across all of our apps.
+Simple angular UI components that we reuse across all of our apps.
 
 ## Installation
 
