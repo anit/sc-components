@@ -16,11 +16,10 @@ $ gulp serve
 
 The following components are available
 
-- [sc-form-field]()
-- [sc-autofocus]()
-- [sc-listing]()
-- [sc-confirm]()
-- [sc-enter]()
+- [sc-form-field](https://github.com/changer/sc-components/tree/master/src/form-field)
+- [sc-listing](https://github.com/changer/sc-components/tree/master/src/listing)
+- [sc-confirm](https://github.com/changer/sc-components/tree/master/src/confirm)
+- [sc-enter](https://github.com/changer/sc-components/tree/master/src/enter)
 
 ## License
 
