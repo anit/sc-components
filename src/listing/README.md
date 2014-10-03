@@ -1,5 +1,9 @@
 ## sc-listing
 
+Provides a simple listing
+
+## API
+
 Takes the following attributes
 
 - `items` - `Array` of items to list
@@ -7,7 +11,7 @@ Takes the following attributes
 - `template-url` - Path to the template for each item
 - `template` - A template string (either this or template-url is needed otherwise a json will be shown)
 
-Example:
+## Usage
 
 ```html
 <sc-listing

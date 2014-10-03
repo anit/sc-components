@@ -13,6 +13,7 @@ var items = [];
 
 for (var i = 0; i < 100; i++) {
   items.push({
+    id: i,
     name: 'item ' + i,
     description: 'bla bla bla '+ i,
     age: Math.floor(Math.random() * 100)
