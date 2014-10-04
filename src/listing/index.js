@@ -1,5 +1,4 @@
 'use strict';
-// jshint unused: false
 
 /*!
  * sc-listing
@@ -15,7 +14,7 @@
  *  <listing
  *    items="items"
  *    on-item-click="showItem"
- *    template-url="/templates/list-item.html">
+ *    template-url="'/templates/list-item.html'">
  *  </listing>
  *
  * it also takes `template` as an attribute which is just a template string
@@ -23,48 +22,51 @@
 
 angular.module('sc-listing', [])
 
-.directive('scListing', function ($compile, $parse, $http, $q, $templateCache) {
+.directive('scListing', function ($compile, $http, $q, $templateCache) {
   return {
     restrict: 'E',
     scope: {
       items: '=',
-      onItemClick: '&',
-      promise: '='
+      onItemClick: '&'
     },
-    compile: function (element, attrs) {
+    link: function (scope, element, attrs) {
       var deferred = $q.defer();
       var promise = deferred.promise;
-      var getter;
+      var template;
+      var templateUrl = angular.isDefined(attrs.templateUrl)
+        ? scope.$parent.$eval(attrs.templateUrl)
+        : '';
 
-      if (attrs.template) {
-        getter = $parse(attrs.template);
-        deferred.resolve({ getter: getter });
-      } else if (attrs.templateUrl) {
-        $http
-          .get(attrs.templateUrl, { cache: $templateCache })
+      scope.onItemClick = scope.onItemClick();
+
+      // Get the template
+      if (angular.isDefined(attrs.template)) {
+        template = scope.$parent.$eval(attrs.template);
+        deferred.resolve(template);
+      } else if (angular.isDefined(attrs.templateUrl)) {
+        templateUrl = scope.$parent.$eval(attrs.templateUrl);
+        $http.get(templateUrl, { cache: $templateCache })
           .success(function (html) {
-            deferred.resolve({ getter: getter, html: html });
+            deferred.resolve(html);
           })
           .error(deferred.reject);
+      } else {
+        deferred.resolve('');
       }
 
-      return function (scope, element, attrs) {
-        promise.then(function (res) {
-          var itemTpl = (res.getter && res.getter(scope)) || res.html;
+      promise.then(function (tpl) {
+        tpl = tpl || '{{ item | json }}';
 
-          scope.onItemClick = scope.onItemClick();
+        var template = [
+          '<ul class="list">',
+          '  <li class="list-item" ng-repeat="item in items" ng-click="onItemClick(item, $index)">',
+          '    '+ tpl,
+          '  </li>',
+          '</ul>'
+        ].join('');
 
-          var template = [
-            '<ul class="list">',
-            '  <li class="list-item" ng-repeat="item in items" ng-click="onItemClick(item, $index)">',
-            '    '+ (itemTpl || '{{ item | json }}') +'',
-            '  </li>',
-            '</ul>'
-          ].join('');
-
-          element.replaceWith($compile(template)(scope));
-        });
-      };
+        element.replaceWith($compile(template)(scope));
+      });
     }
   };
 });

@@ -34,60 +34,60 @@ angular.module('sc-confirm', [
         scConfirm: '&',
         scOnCancel: '&'
       },
-      compile: function(element, attrs) {
-
+      link: function(scope, element, attrs) {
         var deferred = $q.defer();
         var promise = deferred.promise;
-        var getter;
+        var template;
+        var templateUrl = angular.isDefined(attrs.templateUrl)
+          ? scope.$parent.$eval(attrs.templateUrl)
+          : '';
 
-        // All of this to get the template
-        if (attrs.template) {
-          getter = $parse(attrs.template);
-          deferred.resolve({ getter: getter });
-        } else if (attrs.templateUrl) {
-          $http
-            .get(attrs.templateUrl, { cache: $templateCache })
+        // Get the template
+        if (angular.isDefined(attrs.template)) {
+          template = scope.$parent.$eval(attrs.template);
+          deferred.resolve(template);
+        } else if (angular.isDefined(attrs.templateUrl)) {
+          templateUrl = scope.$parent.$eval(attrs.templateUrl);
+          $http.get(templateUrl, { cache: $templateCache })
             .success(function (html) {
-              deferred.resolve({ getter: getter, html: html });
+              deferred.resolve(html);
             })
             .error(deferred.reject);
         } else {
-          deferred.resolve({ html: '' })
+          deferred.resolve('');
         }
 
-        return function (scope, element, attrs) {
-          promise.then(function (res) {
-            var tpl = (res.getter && res.getter(scope.$parent)) || res.html;
-            var message = attrs.scConfirmMessage || 'Are you sure ?';
+        promise.then(function (tpl) {
+          tpl = tpl || '{{ item | json }}';
+          var message = attrs.scConfirmMessage || 'Are you sure ?';
 
-            var modalHtml = [
-              '<div class="modal-header">',
-              '  <button type="button" class="close" ng-click="cancel()" aria-hidden="true">&times;</button>',
-              '  <h4 class="modal-title">'+ message +'</h4>',
-              '</div>',
-              '<div class="modal-body">',
-              '  '+ tpl +'&nbsp;',
-              '</div>',
-              '<div class="modal-footer">',
-              '  <button class="btn btn-primary" ng-click="ok()">Yes</button>',
-              '  <button class="btn btn-link" ng-click="cancel()">Cancel</button>',
-              '</div>'
-            ].join('\n');
+          var modalHtml = [
+            '<div class="modal-header">',
+            '  <button type="button" class="close" ng-click="cancel()" aria-hidden="true">&times;</button>',
+            '  <h4 class="modal-title">'+ message +'</h4>',
+            '</div>',
+            '<div class="modal-body">',
+            '  '+ tpl +'&nbsp;',
+            '</div>',
+            '<div class="modal-footer">',
+            '  <button class="btn btn-primary" ng-click="ok()">Yes</button>',
+            '  <button class="btn btn-link" ng-click="cancel()">Cancel</button>',
+            '</div>'
+          ].join('\n');
 
-            element.bind('click', function () {
-              var modalInstance = $modal.open({
-                template: modalHtml,
-                controller: 'ModalInstanceCtrl',
-                scope: scope.$parent,
-                resolve: {
-                  scOnCancel: function () { return scope.scOnCancel; }
-                }
-              });
-
-              modalInstance.result.then(scope.scConfirm);
+          element.bind('click', function () {
+            var modalInstance = $modal.open({
+              template: modalHtml,
+              controller: 'ModalInstanceCtrl',
+              scope: scope.$parent,
+              resolve: {
+                scOnCancel: function () { return scope.scOnCancel; }
+              }
             });
+
+            modalInstance.result.then(scope.scConfirm);
           });
-        };
+        });
       }
     };
   }
@@ -106,6 +106,6 @@ angular.module('sc-confirm', [
       $modalInstance.dismiss('cancel');
     };
   }
-])
+]);
 
 // TODO: give a provider
