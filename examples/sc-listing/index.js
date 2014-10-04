@@ -17,6 +17,11 @@ angular.module('sc-listing-demo', [
 
   $scope.items = getItems();
 
+  $scope.tplPath = '/templates/list-item.html';
+  $scope.tpl = [
+    '{{ item.name }}'
+  ].join('');
+
   $scope.showItem = function (item, index) {
     $scope.index = index;
     $scope.item = item;
