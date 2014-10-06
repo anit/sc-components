@@ -26,24 +26,24 @@ angular.module('sc-listing', [])
   return {
     restrict: 'E',
     scope: {
-      items: '=',
-      onItemClick: '&'
+      items: '='
     },
     link: function (scope, element, attrs) {
+      var isDefined = angular.isDefined;
       var deferred = $q.defer();
       var promise = deferred.promise;
       var template;
-      var templateUrl = angular.isDefined(attrs.templateUrl)
+      var templateUrl = isDefined(attrs.templateUrl)
         ? scope.$parent.$eval(attrs.templateUrl)
         : '';
 
-      scope.onItemClick = scope.onItemClick();
+      scope.onItemClick = scope.$parent.$eval(attrs.onItemClick);
 
       // Get the template
-      if (angular.isDefined(attrs.template)) {
+      if (isDefined(attrs.template)) {
         template = scope.$parent.$eval(attrs.template);
         deferred.resolve(template);
-      } else if (angular.isDefined(attrs.templateUrl)) {
+      } else if (isDefined(attrs.templateUrl)) {
         templateUrl = scope.$parent.$eval(attrs.templateUrl);
         $http.get(templateUrl, { cache: $templateCache })
           .success(function (html) {

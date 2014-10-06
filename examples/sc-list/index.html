@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+  <!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+  <!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+  <!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+  <!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>sc-list</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/index.css" />
+    <link rel="stylesheet" href="/components/angular-busy/dist/angular-busy.css" />
+
+    <!-- Scripts -->
+    <script src="/components/angular/angular.js"></script>
+    <script src="/components/angular-resource/angular-resource.js"></script>
+    <script src="/components/angular-busy/dist/angular-busy.js"></script>
+    <script src="/listing/index.js"></script>
+    <script src="/list/index.js"></script>
+
+    <!-- Demo files -->
+    <script src="/sc-list/index.js"></script>
+    <link href="/sc-list/index.css" rel="stylesheet"/>
+  </head>
+  <body>
+    <!--[if lt IE 7]>
+        <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+    <![endif]-->
+
+    <div class="container">
+      <div class="page-header">
+        <h1>
+          sc-components
+          <a class="pull-right" href="/">back</a>
+        </h1>
+      </div>
+      <p class="lead">
+        <code>List()</code> api
+      </p>
+
+      <div ng-app="sc-list-demo">
+        <div class="row" ng-controller="ListCtrl">
+
+          <!-- Start -->
+          <div class="col-md-8" cg-busy="list.$promise">
+            <form ng-submit="list.refresh()">
+              <input type="text" name="filter" ng-model="list.options.filter" class="form-control" autofocus placeholder="Search...">
+            </form>
+
+            <a href="" ng-click="list.sort('name', 1)">sort by name</a>
+            &nbsp;&nbsp;
+            <a href="" ng-click="list.sort('age', 1)">sort by age</a>
+            &nbsp;&nbsp;
+            <a href="" ng-click="list.refresh()">refresh</a>
+
+            <br><br>
+            <sc-listing
+              items="list.items"
+              on-item-click="showItem"
+              template-url="tplPath">
+            </sc-listing>
+          </div>
+          <!-- End -->
+
+          <div class="col-md-4" ng-if="item">
+            You clicked on {{ item.name }}
+            <br>
+            whose index is {{ index }}
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="footer">
+      <div class="container">
+        <p class="text-muted">MIT</p>
+      </div>
+    </div>
+  </body>
+</html>
