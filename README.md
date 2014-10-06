@@ -21,6 +21,7 @@ The following components are available
 - [sc-confirm](https://github.com/changer/sc-components/tree/master/src/confirm)
 - [sc-enter](https://github.com/changer/sc-components/tree/master/src/enter)
 - [sc-list](https://github.com/changer/sc-components/tree/master/src/list)
+- [sc-dropdown](https://github.com/changer/sc-components/tree/master/src/dropdown)
 
 ## License
 
