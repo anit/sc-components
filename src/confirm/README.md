@@ -23,7 +23,7 @@ Takes the following attributes
   sc-confirm="remove(item)"
   sc-confirm-message="Are you sure you want to remove this?"
   sc-on-cancel="cancel(item)"
-  template-url="/templates/confirm.html">
+  template-url="'/templates/confirm.html'">
   Delete this
 </a>
 ```

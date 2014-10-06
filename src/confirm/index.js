@@ -16,7 +16,7 @@
  *  <a sc-confirm="remove()"
  *    sc-confirm-message="Are you sure custom message?"
  *    sc-on-cancel="cancel()"
- *    template-url="/templates/confirm.html"
+ *    template-url="'/templates/confirm.html'"
  *    item="resource">
  *  </a>
  */
