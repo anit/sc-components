@@ -22,7 +22,7 @@ The following are the instance objects and methods available
 
 #### Objects
 
-- `options` - List options used for sorting, searching and pagination
+- `options` - List options used for sorting, searching and pagination.
   - `options.limit` - `Number` of records to be fetched. Default is `20`
   - `options.filter` - `String` to be searched
   - `options.page` - Current page `Number`. Default is `0`
@@ -31,6 +31,8 @@ The following are the instance objects and methods available
 - `items` - The angular resource array
 - `$promise` - Promise object when the list is being `fetch`ed
 - `Resource` - The resource being queried
+
+Any property set on `options` will be sent as a query param during `Resource.query()`.
 
 #### Methods
 
