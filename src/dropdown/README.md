@@ -23,7 +23,7 @@ The following attributes are applicable
 
 - `items` - An `Array`
 - `type` - There are 3 types of dropdowns available.
-  - `simple`: a simple anchor link
+  - `simple`: a simple anchor link with dropdown
   - `single`: a button with dropdown
   - `split`: a button with split caret as dropdown
 - `on-select` - A `Function` that is called when the dropdown is selected. The `item` is passed as an argument
