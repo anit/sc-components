@@ -11,9 +11,10 @@
 
 var express = require('express');
 var sleep = require('sleep');
-var app = express();
-var port = process.env.PORT || 3000;
 var _url = require('url');
+var app = express();
+
+var port = process.env.PORT || 3000;
 var items = [];
 
 for (var i = 0; i < 100; i++) {
