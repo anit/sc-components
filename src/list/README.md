@@ -39,3 +39,9 @@ Any property set on `options` will be sent as a query param during `Resource.que
 - `.sort(field [, sort_type])` - Takes `field` and `sort_type`
 - `fetch([options])` - Does a `.query` on `Resource`
 - `refresh([options])` - Same as `.fetch()`
+- `goto(page)` - Go to a particular page. A shortcut for
+
+  ```js
+  list.options.page = 2;
+  list.fetch();
+  ```

@@ -71,6 +71,19 @@ angular.module('sc-list', [])
   };
 
   /**
+   * goto
+   *
+   * @param {Number} page
+   * @return {Array}
+   * @api public
+   */
+
+  List.prototype.goto = function (page) {
+    this.options.page = parseInt(page);
+    return this.fetch();
+  };
+
+  /**
    * fetch
    *
    * @param {Object} options
