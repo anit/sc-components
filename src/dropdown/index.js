@@ -32,7 +32,18 @@ angular.module('sc-dropdown', [
   'ui.bootstrap'
 ])
 
-.directive('scDropdown', ['$compile', function ($compile) {
+/**
+ * Constants
+ */
+
+.constant('scDropdownDefaults', {
+  btnClass: 'btn btn-',
+  btnDefault: 'link',
+  type: 'simple',
+  label: 'Choose from the list'
+})
+
+.directive('scDropdown', ['$compile', 'scDropdownDefaults', function ($compile, defaults) {
   return {
     restrict: 'E',
     scope: {
@@ -41,16 +52,20 @@ angular.module('sc-dropdown', [
     link: function (scope, element, attrs) {
       var isDefined = angular.isDefined;
       var isFunction = angular.isFunction;
-      var attribute = scope.$parent.$eval(attrs.attribute);
       var validTypes = ['simple', 'single', 'split'];
       var dropdown = {};
-      var btnClass = 'btn btn-';
-      var btnDefault = 'default';
-      var type = 'simple';
-      var label = 'Choose';
       var labelTpl;
 
-      // Parse attributes
+      // defaults
+      var btnClass = defaults.btnClass;
+      var btnDefault = defaults.btnDefault;
+      var type = defaults.type;
+      var label = defaults.label;
+
+      // Parse
+
+      // attribute
+      var attribute = scope.$parent.$eval(attrs.attribute);
 
       // type
       if (isDefined(attrs.type)) {
@@ -72,13 +87,13 @@ angular.module('sc-dropdown', [
           ? label()
           : label;
       }
+      scope.label = scope.label || label;
 
       // btn-class
       if (isDefined(attrs.btnClass)) {
         btnDefault = scope.$parent.$eval(attrs.btnClass);
       }
       btnClass = btnClass + btnDefault;
-      scope.label = scope.label || label;
 
       // on-select
       var onSelect = scope.$parent.$eval(attrs.onSelect);
