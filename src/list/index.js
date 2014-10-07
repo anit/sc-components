@@ -28,7 +28,7 @@ angular.module('sc-list', [])
   sort_type: 1
 })
 
-.factory('scList', ['scListDefaults', function (listDefaults) {
+.factory('scList', ['scListDefaults', function (defaults) {
 
   /**
    * List
@@ -45,11 +45,11 @@ angular.module('sc-list', [])
 
     options = options || {};
     this.options = {};
-    this.options.limit = options.limit || listDefaults.limit;
+    this.options.limit = options.limit || defaults.limit;
     this.options.filter = options.filter;
-    this.options.page = options.page || listDefaults.page;
+    this.options.page = options.page || defaults.page;
     this.options.sort_by = options.sort_by;
-    this.options.sort_type = options.sort_type || listDefaults.sort_type;
+    this.options.sort_type = options.sort_type || defaults.sort_type;
     this.Resource = Resource;
   }
 
