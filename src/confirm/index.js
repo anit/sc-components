@@ -25,9 +25,17 @@ angular.module('sc-confirm', [
   'ui.bootstrap'
 ])
 
+/**
+ * Constants
+ */
+
+.constant('scConfirmDefaults', {
+  message: 'Are you sure ?'
+})
+
 .directive('scConfirm', [
-  '$modal', '$compile', '$parse', '$http', '$q', '$templateCache',
-  function ($modal, $compile, $parse, $http, $q, $templateCache) {
+  '$modal', '$compile', '$parse', '$http', '$q', '$templateCache', 'scConfirmDefaults',
+  function ($modal, $compile, $parse, $http, $q, $templateCache, defaults) {
     return {
       restrict: 'A',
       scope: {
@@ -59,7 +67,7 @@ angular.module('sc-confirm', [
 
         promise.then(function (tpl) {
           tpl = tpl || '{{ item | json }}';
-          var message = attrs.scConfirmMessage || 'Are you sure ?';
+          var message = attrs.scConfirmMessage || defaults.message;
 
           var modalHtml = [
             '<div class="modal-header">',
