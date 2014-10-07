@@ -14,6 +14,8 @@
  *  <listing
  *    items="items"
  *    on-item-click="showItem"
+ *    class="'items'"
+ *    item-class="'item'"
  *    template-url="'/templates/list-item.html'">
  *  </listing>
  *
@@ -32,6 +34,8 @@ angular.module('sc-listing', [])
       var isDefined = angular.isDefined;
       var deferred = $q.defer();
       var promise = deferred.promise;
+      var classes = ['list'];
+      var itemClass = ['list-item'];
       var template;
       var templateUrl = isDefined(attrs.templateUrl)
         ? scope.$parent.$eval(attrs.templateUrl)
@@ -54,12 +58,23 @@ angular.module('sc-listing', [])
         deferred.resolve('');
       }
 
+      if (isDefined(attrs.class)) {
+        classes.push(attrs.class);
+      }
+
+      if (isDefined(attrs.itemClass)) {
+        itemClass.push(scope.$parent.$eval(attrs.itemClass));
+      }
+
+      classes = classes.join(' ');
+      itemClass = itemClass.join(' ');
+
       promise.then(function (tpl) {
         tpl = tpl || '{{ item | json }}';
 
         var template = [
-          '<ul class="list">',
-          '  <li class="list-item" ng-repeat="item in items" ng-click="onItemClick(item, $index)">',
+          '<ul class="'+ classes +'">',
+          '  <li class="'+ itemClass +'" ng-repeat="item in items" ng-click="onItemClick(item, $index)">',
           '    '+ tpl,
           '  </li>',
           '</ul>'
