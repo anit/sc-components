@@ -1,0 +1,23 @@
+
+/*
+.list {
+  padding: 0;
+  border: 1px solid #ccc;
+}
+
+.list .list-item {
+  list-style-type: none;
+  list-style: none;
+  border-top: 1px solid #ccc;
+  padding: 10px 15px;
+}
+
+.list .list-item:first-child {
+  border-top: 0;
+}
+
+.list .list-item:hover {
+  cursor: pointer;
+  background: #eee;
+}
+*/
