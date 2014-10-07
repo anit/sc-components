@@ -9,7 +9,7 @@ Clone the repo, make sure you have [npm](https://www.npmjs.org/), [bower](http:/
 ```sh
 $ npm install
 $ bower install
-$ gulp serve
+$ npm start
 ```
 
 ## Components
