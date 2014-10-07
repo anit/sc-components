@@ -27,6 +27,12 @@ The following components are available
 - [sc-list](https://github.com/changer/sc-components/tree/master/src/list)
 - [sc-dropdown](https://github.com/changer/sc-components/tree/master/src/dropdown)
 
+## Tests
+
+```sh
+$ npm test
+```
+
 ## License
 
 MIT
