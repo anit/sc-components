@@ -28,11 +28,11 @@ describe('sc-confirm', function () {
     ].join('\n'));
 
     scope.remove = function (item) {
-      scope.answer = 'You confirmed';
+      scope.answer = 'You confirmed ' + item.name;
     };
 
     scope.cancel = function (item) {
-      scope.answer = 'Oops, you cancelled';
+      scope.answer = 'Oops, you cancelled ' + item.name;
     };
 
     scope.item = {
@@ -68,13 +68,13 @@ describe('sc-confirm', function () {
   it('should call the confirm method when confirmed', function () {
     $document.find('.modal-footer .btn-primary').trigger('click');
     var answer = $document.find('.answer');
-    expect(answer.text()).toBe('You confirmed');
+    expect(answer.text()).toBe('You confirmed test');
   });
 
   it('should call the cancel method when cancelled', function () {
     $document.find('.modal-footer .btn-link').trigger('click');
     var answer = $document.find('.answer');
-    expect(answer.text()).toBe('Oops, you cancelled');
+    expect(answer.text()).toBe('Oops, you cancelled test');
   });
 
   // Cleanup
