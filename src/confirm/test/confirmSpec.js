@@ -8,7 +8,8 @@ describe('sc-confirm', function () {
   var compile;
   var timeout;
 
-  beforeEach(module('ui.bootstrap', 'sc-confirm'));
+  beforeEach(module('ui.bootstrap'));
+  beforeEach(module('sc-confirm'));
   beforeEach(module(
     'src/confirm/test/template.html',
     'src/confirm/test/template-url.html',

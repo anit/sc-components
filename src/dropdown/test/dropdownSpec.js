@@ -9,7 +9,6 @@ describe('sc-dropdown', function () {
 
   beforeEach(module('ui.bootstrap', 'sc-listing'));
   beforeEach(module('sc-dropdown'));
-
   beforeEach(module(
     'src/dropdown/test/simple-defaults.html',
     'src/dropdown/test/simple.html',
