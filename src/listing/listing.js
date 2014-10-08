@@ -37,11 +37,14 @@ angular.module('sc-listing', [])
       var classes = ['list'];
       var itemClass = ['list-item'];
       var template;
-      var templateUrl = isDefined(attrs.templateUrl)
-        ? scope.$parent.$eval(attrs.templateUrl)
-        : '';
+      var templateUrl;
 
-      scope.onItemClick = scope.$parent.$eval(attrs.onItemClick);
+      // Parse attrs
+
+      // on-item-click
+      if (isDefined(attrs.onItemClick)) {
+        scope.onItemClick = scope.$parent.$eval(attrs.onItemClick);
+      }
 
       // Get the template
       if (isDefined(attrs.template)) {
@@ -58,10 +61,12 @@ angular.module('sc-listing', [])
         deferred.resolve('');
       }
 
+      // class
       if (isDefined(attrs.class)) {
         classes.push(attrs.class);
       }
 
+      // item-class
       if (isDefined(attrs.itemClass)) {
         itemClass.push(scope.$parent.$eval(attrs.itemClass));
       }
