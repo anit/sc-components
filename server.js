@@ -28,6 +28,7 @@ for (var i = 0; i < 100; i++) {
 
 app.use(express.static(__dirname + '/src'));
 app.use(express.static(__dirname + '/examples'));
+app.use(express.static(__dirname + '/coverage/PhantomJS 1.9.7 (Mac OS X)'));
 
 app.get('/items', function (req, res) {
   var _items = items;
