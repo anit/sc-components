@@ -31,10 +31,10 @@ module.exports = function(config) {
       'src/**/*.js',
 
       // templates
-      'test/templates/*.html',
+      'src/**/test/*.html',
 
       // tests
-      'test/**/*.js'
+      'src/**/test/*.js'
     ],
 
 
@@ -46,7 +46,7 @@ module.exports = function(config) {
     // preprocess matching files before serving them to the browser
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors: {
-      'test/templates/*.html': 'ng-html2js'
+      'src/**/test/*.html': 'ng-html2js'
     },
 
 

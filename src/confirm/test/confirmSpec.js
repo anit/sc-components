@@ -5,7 +5,7 @@ describe('sc-confirm', function () {
 
   // load sc-confirm and the dependent 'ui.bootstrap' module
   beforeEach(module('ui.bootstrap', 'sc-confirm'));
-  beforeEach(module('test/templates/confirm.html'));
+  beforeEach(module('src/confirm/test/confirm.html'));
 
   beforeEach(inject(function ($rootScope, $compile) {
     scope = $rootScope;
@@ -14,7 +14,7 @@ describe('sc-confirm', function () {
       '  sc-confirm="remove(item)"',
       '  sc-confirm-message="Are you sure you want to remove this?"',
       '  sc-on-cancel="cancel(item)"',
-      '  template-url="\'test/templates/confirm.html\'">',
+      '  template-url="\'src/confirm/test/confirm.html\'">',
       '  Delete this',
       '</a>'
     ].join('\n'));
