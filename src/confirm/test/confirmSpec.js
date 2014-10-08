@@ -51,9 +51,10 @@ describe('sc-confirm', function () {
 
     $document.find('body a').trigger('click');
     inject(function ($transition) {
-      if ($transition.transitionEndEventName) {
+      // This is always called when transition ends
+      // if ($transition.transitionEndEventName) {
         timeout.flush();
-      }
+      // }
     });
   }
 
