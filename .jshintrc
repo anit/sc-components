@@ -22,11 +22,10 @@
   "unused": false,
   "maxparams": 7,
   "maxdepth": 3,
-  "maxstatements": 20,
+  "maxstatements": 30,
   "maxlen": 120,
   "curly": false,
   "node": true,
-  "es5": true,
   "browser": true,
   "globals": {
     "angular": true,
@@ -35,6 +34,7 @@
     "beforeEach": true,
     "it": true,
     "expect": true,
-    "inject": true
+    "inject": true,
+    "$": true
   }
 }

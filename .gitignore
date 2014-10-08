@@ -1,3 +1,4 @@
 node_modules
 examples/components
 coverage
+Makefile
