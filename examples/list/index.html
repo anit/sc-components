@@ -6,23 +6,25 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>sc-dropdown</title>
+    <title>sc-list</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <!-- CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="/index.css" />
+    <link rel="stylesheet" href="/components/angular-busy/dist/angular-busy.css" />
 
     <!-- Scripts -->
     <script src="/components/angular/angular.js"></script>
-    <script src="/components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
-    <script src="/listing/index.js"></script>
-    <script src="/dropdown/index.js"></script>
+    <script src="/components/angular-resource/angular-resource.js"></script>
+    <script src="/components/angular-busy/dist/angular-busy.js"></script>
+    <script src="/listing/listing.js"></script>
+    <script src="/list/list.js"></script>
 
     <!-- Demo files -->
-    <script src="/sc-dropdown/index.js"></script>
-    <link rel="stylesheet" href="/sc-dropdown/index.css" />
+    <script src="/list/demo.js"></script>
+    <link href="/list/demo.css" rel="stylesheet"/>
   </head>
   <body>
     <!--[if lt IE 7]>
@@ -37,27 +39,37 @@
         </h1>
       </div>
       <p class="lead">
-        Dropdown component <code>&lt;sc-dropdown&gt;</code>
+        <code>List()</code> api
       </p>
 
-      <div ng-app="sc-dropdown-demo">
-        <div class="row" ng-controller="DropdownCtrl">
+      <div ng-app="sc-list-demo">
+        <div class="row" ng-controller="ListCtrl">
 
           <!-- Start -->
-          <div class="col-md-4">
-            <sc-dropdown
-              items="arr"
-              attribute="'name'"
-              label="'Choose a color'"
-              type="'single'"
-              btn-class="'link'"
-              on-select="show">
-            </sc-dropdown>
+          <div class="col-md-8" cg-busy="list.$promise">
+            <form ng-submit="list.refresh()">
+              <input type="text" name="filter" ng-model="list.options.filter" class="form-control" autofocus placeholder="Search...">
+            </form>
+
+            <a href="" ng-click="list.sort('name', 1)">sort by name</a>
+            &nbsp;&nbsp;
+            <a href="" ng-click="list.sort('age', 1)">sort by age</a>
+            &nbsp;&nbsp;
+            <a href="" ng-click="list.refresh()">refresh</a>
+
+            <br><br>
+            <sc-listing
+              items="list.items"
+              on-item-click="showItem"
+              template-url="tplPath">
+            </sc-listing>
           </div>
           <!-- End -->
 
-          <div class="col-md-8" ng-if="color">
-            You selected color "{{ color.name }}"
+          <div class="col-md-4" ng-if="item">
+            You clicked on {{ item.name }}
+            <br>
+            whose index is {{ index }}
           </div>
         </div>
       </div>

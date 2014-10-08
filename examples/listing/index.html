@@ -6,20 +6,24 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>sc-enter</title>
+    <title>sc-listing</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <!-- CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="/index.css" />
+    <link rel="stylesheet" href="/components/angular-busy/dist/angular-busy.css" />
 
     <!-- Scripts -->
     <script src="/components/angular/angular.js"></script>
-    <script src="/enter/index.js"></script>
+    <script src="/components/angular-resource/angular-resource.js"></script>
+    <script src="/components/angular-busy/dist/angular-busy.js"></script>
+    <script src="/listing/listing.js"></script>
 
     <!-- Demo files -->
-    <script src="/sc-enter/index.js"></script>
+    <script src="/listing/demo.js"></script>
+    <link href="/listing/demo.css" rel="stylesheet"/>
   </head>
   <body>
     <!--[if lt IE 7]>
@@ -34,21 +38,37 @@
         </h1>
       </div>
       <p class="lead">
-        Enter component <code>&lt;sc-enter&gt;</code>
+        Listing component <code>&lt;sc-listing&gt;</code>
       </p>
 
-      <div ng-app="sc-enter-demo">
-        <p>Hit the enter key</p>
-        <div class="row" ng-controller="DemoCtrl">
+      <div ng-app="sc-listing-demo">
+        <div class="row" ng-controller="ListCtrl">
 
           <!-- Start -->
-          <div class="col-md-3">
-            <input sc-enter="record()" type="text" ng-model="term" class="form-control" autofocus>
+          <div class="col-md-8" cg-busy="items.$promise">
+            <form ng-submit="refresh()">
+              <input type="text" name="filter" ng-model="filter" class="form-control" autofocus placeholder="Search...">
+            </form>
+
+            <a href="" ng-click="sort('name', 1)">sort by name</a>
+            &nbsp;&nbsp;
+            <a href="" ng-click="sort('age', 1)">sort by age</a>
+            &nbsp;&nbsp;
+            <a href="" ng-click="refresh()">refresh</a>
+
+            <br><br>
+            <sc-listing
+              items="items"
+              on-item-click="showItem"
+              template-url="tplPath">
+            </sc-listing>
           </div>
           <!-- End -->
 
-          <div class="col-md-9" ng-if="count">
-            You pressed enter {{ count }} times
+          <div class="col-md-4" ng-if="item">
+            You clicked on {{ item.name }}
+            <br>
+            whose index is {{ index }}
           </div>
         </div>
       </div>

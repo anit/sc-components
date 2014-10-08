@@ -32,11 +32,14 @@ describe('sc-confirm', function () {
       name: 'test'
     };
 
+    angular.element('body').append(elm);
     $compile(elm)(scope);
+    elm.trigger('click');
     scope.$digest();
   }));
 
   it('should do...', function () {
+    console.log(angular.element('html'));
     expect(0).toBe(0);
   });
 });

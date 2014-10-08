@@ -6,7 +6,7 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>sc-confirm</title>
+    <title>sc-dropdown</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -17,10 +17,12 @@
     <!-- Scripts -->
     <script src="/components/angular/angular.js"></script>
     <script src="/components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
-    <script src="/confirm/index.js"></script>
+    <script src="/listing/listing.js"></script>
+    <script src="/dropdown/dropdown.js"></script>
 
     <!-- Demo files -->
-    <script src="/sc-confirm/index.js"></script>
+    <script src="/dropdown/demo.js"></script>
+    <link rel="stylesheet" href="/dropdown/demo.css" />
   </head>
   <body>
     <!--[if lt IE 7]>
@@ -35,22 +37,27 @@
         </h1>
       </div>
       <p class="lead">
-        Confirm component <code>&lt;sc-confirm&gt;</code>
+        Dropdown component <code>&lt;sc-dropdown&gt;</code>
       </p>
 
-      <div ng-app="sc-confirm-demo">
-        <div class="row" ng-controller="DemoCtrl">
+      <div ng-app="sc-dropdown-demo">
+        <div class="row" ng-controller="DropdownCtrl">
 
           <!-- Start -->
-          <div class="col-md-3">
-            <a href="" sc-confirm="remove(item)" sc-confirm-message="Are you sure you want to remove this?" sc-on-cancel="cancel(item)" template-url="'/templates/confirm.html'">
-              Delete this
-            </a>
+          <div class="col-md-4">
+            <sc-dropdown
+              items="arr"
+              attribute="'name'"
+              label="'Choose a color'"
+              type="'single'"
+              btn-class="'link'"
+              on-select="show">
+            </sc-dropdown>
           </div>
           <!-- End -->
 
-          <div class="col-md-9" ng-if="answer">
-            You {{ answer }}
+          <div class="col-md-8" ng-if="color">
+            You selected color "{{ color.name }}"
           </div>
         </div>
       </div>
