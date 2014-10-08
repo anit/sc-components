@@ -29,6 +29,12 @@
   "es5": true,
   "browser": true,
   "globals": {
-    "angular": true
+    "angular": true,
+    "describe": true,
+    "afterEach": true,
+    "beforeEach": true,
+    "it": true,
+    "expect": true,
+    "inject": true
   }
 }

@@ -1,9 +1,6 @@
+'use strict';
 
 describe('sc-confirm', function () {
-  var elm;
-  var scope;
-  var compile;
-  var timeout;
   var $document;
 
   // load sc-confirm and the dependent 'ui.bootstrap' module
@@ -12,11 +9,8 @@ describe('sc-confirm', function () {
 
   beforeEach(inject(function ($rootScope, $compile, _$document_, $timeout) {
     $document = _$document_;
-    scope = $rootScope;
-    compile = $compile;
-    timeout = $timeout;
-
-    elm = angular.element([
+    var scope = $rootScope;
+    var elm = angular.element([
       '<a href=""',
       '  sc-confirm="remove(item)"',
       '  sc-confirm-message="Are you sure you want to remove this?"',
@@ -47,7 +41,7 @@ describe('sc-confirm', function () {
     $document.find('body a').trigger('click');
     inject(function ($transition) {
       if ($transition.transitionEndEventName) {
-        timeout.flush();
+        $timeout.flush();
       }
     });
   }));
