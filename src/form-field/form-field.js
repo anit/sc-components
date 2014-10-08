@@ -1,3 +1,4 @@
+'use strict';
 
 angular.module('sc-form-field', [])
 
@@ -10,5 +11,5 @@ angular.module('sc-form-field', [])
     compile: function (element, attrs) {
 
     }
-  }
-})
+  };
+});

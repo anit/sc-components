@@ -63,7 +63,7 @@ angular.module('sc-list', [])
    */
 
   List.prototype.sort = function (field, type) {
-    this.options.sort_type = parseInt(this.options.sort_type) * -1;
+    this.options.sort_type = parseInt(this.options.sort_type, 10) * -1;
     return this.fetch({
       sort_type: type * this.options.sort_type,
       sort_by: field
@@ -79,7 +79,7 @@ angular.module('sc-list', [])
    */
 
   List.prototype.goto = function (page) {
-    this.options.page = parseInt(page);
+    this.options.page = parseInt(page, 10);
     return this.fetch();
   };
 

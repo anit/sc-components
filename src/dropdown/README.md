@@ -14,7 +14,7 @@ Simple dropdowns that remember your selection!
     items="items"
     attribute="'name'"
     default="getDefault()"
-    label="choose from the list"
+    label="'choose from the list'"
     type="'simple'"
     btn-class="'link'"
     on-select="doSomething">
@@ -46,5 +46,5 @@ The following attributes are applicable
   - `simple`: A simple anchor link with dropdown. This is the default if type is not specified
   - `single`: A button with dropdown
   - `split`: A button with split caret as dropdown
-- `btn-class`: (optional) When the `type` is single or split, the class to be applied to dropdowns button. Can be one of `primary`, `success`, `info`, `warning`, `link` and `danger`. Defaults to `default`.
+- `btn-class`: (optional) When the `type` is single or split, the class to be applied to dropdowns button. Can be one of `primary`, `success`, `info`, `warning`, `link` and `danger`. Defaults to `link`.
 - `on-select`: (optional) A `Function` that is called when the dropdown is selected. The `item` is passed as an argument
