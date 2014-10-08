@@ -2,24 +2,28 @@
 
 describe('sc-confirm', function () {
   var $document;
+  var elm;
+  var scope;
+  var templateCache;
+  var compile;
+  var timeout;
 
   beforeEach(module('ui.bootstrap', 'sc-confirm'));
-  beforeEach(module('src/confirm/test/confirm.html'));
+  beforeEach(module(
+    'src/confirm/test/template.html',
+    'src/confirm/test/template-url.html',
+    'src/confirm/test/no-template.html',
+    'src/confirm/test/confirm.html'
+  ));
 
-  beforeEach(inject(function ($rootScope, $compile, _$document_, $timeout) {
+  beforeEach(inject(function ($rootScope, $compile, _$document_, $timeout, $templateCache) {
     $document = _$document_;
-    var scope = $rootScope;
-    var elm = angular.element([
-      '<a href=""',
-      '  sc-confirm="remove(item)"',
-      '  sc-confirm-message="Are you sure you want to remove this?"',
-      '  sc-on-cancel="cancel(item)"',
-      '  template-url="\'src/confirm/test/confirm.html\'">',
-      '  Delete this',
-      '</a>',
-      '<div class="answer">{{ answer }}</div>'
-    ].join('\n'));
+    scope = $rootScope;
+    templateCache = $templateCache;
+    compile = $compile;
+    timeout = $timeout;
 
+    scope.template = 'src/confirm/test/confirm.html';
     scope.remove = function (item) {
       scope.answer = 'You confirmed ' + item.name;
     };
@@ -32,25 +36,35 @@ describe('sc-confirm', function () {
       id: 1,
       name: 'test'
     };
+  }));
 
+  /**
+   * Setup
+   */
+
+  function setup (type) {
+    var tpl = templateCache.get('src/confirm/test/'+ type +'.html');
+    elm = angular.element(tpl);
     angular.element('body').append(elm);
-    $compile(elm)(scope);
+    compile(elm)(scope);
     scope.$digest();
 
     $document.find('body a').trigger('click');
     inject(function ($transition) {
       if ($transition.transitionEndEventName) {
-        $timeout.flush();
+        timeout.flush();
       }
     });
-  }));
+  }
 
-  it('should do open the modal window with given message', function () {
+  it('should open the modal window with given message', function () {
+    setup('template-url');
     var title = $document.find('.modal-title');
     expect(title.text()).toContain('Are you sure you want to remove this');
   });
 
   it('should load the template provided', function () {
+    setup('template-url');
     var body = $document.find('.modal-body');
     expect(body.text()).toContain('We are going to remove all the occurances of item');
     expect(body.find('p').length).toBe(1);
@@ -59,15 +73,37 @@ describe('sc-confirm', function () {
   });
 
   it('should call the confirm method when confirmed', function () {
+    setup('template-url');
     $document.find('.modal-footer .btn-primary').trigger('click');
     var answer = $document.find('.answer');
     expect(answer.text()).toBe('You confirmed test');
   });
 
   it('should call the cancel method when cancelled', function () {
+    setup('template-url');
     $document.find('.modal-footer .btn-link').trigger('click');
     var answer = $document.find('.answer');
     expect(answer.text()).toBe('Oops, you cancelled test');
+  });
+
+  it('should use the template when provided', function () {
+    scope.template = '<div class="remove">All will be removed</div>';
+    setup('template');
+    var body = $document.find('.modal-body');
+    expect(body.find('.remove').length).toBe(1);
+    expect(body.text()).toContain('All will be removed');
+  });
+
+  it('should display no modal body when no template is given', function () {
+    setup('no-template');
+    var body = $document.find('.modal-body');
+    expect($.trim(body.text())).not.toBeTruthy();
+  });
+
+  it('should display default message when none provided', function () {
+    setup('no-template');
+    var title = $document.find('.modal-title');
+    expect(title.text()).toContain('Are you sure ?');
   });
 
   // Cleanup

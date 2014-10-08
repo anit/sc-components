@@ -46,11 +46,11 @@ angular.module('sc-confirm', [
         var deferred = $q.defer();
         var promise = deferred.promise;
         var template;
-        var templateUrl = angular.isDefined(attrs.templateUrl)
-          ? scope.$parent.$eval(attrs.templateUrl)
-          : '';
+        var templateUrl;
 
-        // Get the template
+        // Parse attrs
+
+        // template and templateUrl
         if (angular.isDefined(attrs.template)) {
           template = scope.$parent.$eval(attrs.template);
           deferred.resolve(template);
@@ -66,9 +66,7 @@ angular.module('sc-confirm', [
         }
 
         promise.then(function (tpl) {
-          tpl = tpl || '{{ item | json }}';
           var message = attrs.scConfirmMessage || defaults.message;
-
           var modalHtml = [
             '<div class="modal-header">',
             '  <button type="button" class="close" ng-click="cancel()" aria-hidden="true">&times;</button>',
@@ -110,7 +108,7 @@ angular.module('sc-confirm', [
   function ($scope, $modalInstance, scOnCancel) {
     $scope.ok = $modalInstance.close;
     $scope.cancel = function () {
-      if (scOnCancel) scOnCancel();
+      $scope.$parent.$eval(scOnCancel);
       $modalInstance.dismiss('cancel');
     };
   }
