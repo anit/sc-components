@@ -37,6 +37,10 @@ describe('sc-dropdown', function () {
       return scope.arr[0];
     };
 
+    scope.otherDefault = function () {
+      return 'Some other value';
+    };
+
     scope.items = ['red', 'blue'];
   }));
 
@@ -48,36 +52,102 @@ describe('sc-dropdown', function () {
     scope.$digest();
   }
 
-  it('should provide a simple dropdown with default label', function () {
-    dropdown('simple');
+  describe('simple', function () {
+    it('should provide a simple dropdown with default label', function () {
+      dropdown('simple');
 
-    var dd = $document.find('span.dropdown');
-    var menu = dd.find('ul.list.dropdown-menu');
-    var anchor = dd.find('a.dropdown-toggle');
+      var dd = $document.find('span.dropdown');
+      var menu = dd.find('ul.list.dropdown-menu');
+      var anchor = dd.find('a.dropdown-toggle');
 
-    expect(dd.length).toBe(1);
-    expect(anchor.text()).toContain('Choose from the list');
+      expect(dd.length).toBe(1);
+      expect(anchor.text()).toContain('Choose from the list');
 
-    // click on element
-    anchor.trigger('click');
+      // click on element
+      anchor.trigger('click');
 
-    // opens the dropdown
-    expect(dd.attr('class')).toContain('open');
-    expect(menu.length).toBe(1);
-    expect(menu.find('li').length).toBe(2);
-    expect(menu.find('li').eq(0).text()).toContain('black');
-    expect(menu.find('li').eq(1).text()).toContain('green');
+      // opens the dropdown
+      expect(dd.attr('class')).toContain('open');
+      expect(menu.length).toBe(1);
+      expect(menu.find('li').length).toBe(2);
+      expect(menu.find('li').eq(0).text()).toContain('black');
+      expect(menu.find('li').eq(1).text()).toContain('green');
+    });
+
+    it('should call the onSelect method when clicked on item', function () {
+      dropdown('simple');
+      var dd = $document.find('span.dropdown');
+      var menu = dd.find('ul.list.dropdown-menu');
+      dd.find('a.dropdown-toggle').trigger('click');
+
+      // click on the first dropdown item ('black')
+      menu.find('li').eq(0).trigger('click');
+      expect($document.find('.selected').text()).toContain('You selected black');
+    });
   });
 
-  it('should call the onSelect method when clicked on item', function () {
-    dropdown('simple');
-    var dd = $document.find('span.dropdown');
-    var menu = dd.find('ul.list.dropdown-menu');
-    dd.find('a.dropdown-toggle').trigger('click');
+  describe('single', function () {
+    it('should provide a dropdown button with custom label and provided button class', function () {
+      dropdown('single');
 
-    // click on the first dropdown item ('black')
-    menu.find('li').eq(0).trigger('click');
-    expect($document.find('.selected').text()).toContain('You selected black');
+      var dd = $document.find('.btn-group');
+      var menu = dd.find('ul.list.dropdown-menu');
+      var button = dd.find('button.dropdown-toggle');
+
+      expect(dd.length).toBe(1);
+      expect(button.text()).toContain('choose from the colors');
+      expect(button.attr('class')).toContain('btn btn-link');
+
+      // click on element
+      button.trigger('click');
+
+      // opens the dropdown
+      expect(dd.attr('class')).toContain('open');
+      expect(menu.length).toBe(1);
+      expect(menu.find('li').length).toBe(2);
+      expect(menu.find('li').eq(0).text()).toContain('red');
+      expect(menu.find('li').eq(1).text()).toContain('blue');
+    });
+
+    it('should call the onSelect method when clicked on item', function () {
+      dropdown('single');
+      var dd = $document.find('.btn-group');
+      var menu = dd.find('ul.list.dropdown-menu');
+      dd.find('button.dropdown-toggle').trigger('click');
+
+      // click on the first dropdown item ('red')
+      menu.find('li').eq(0).trigger('click');
+      expect($document.find('.selected').text()).toContain('You selected red');
+    });
+  });
+
+  describe('split', function () {
+    it('should provide a split dropdown', function () {
+      dropdown('split');
+      var dd = $document.find('.btn-group');
+      expect(dd.find('button').length).toBe(2);
+      expect(dd.find('button.dropdown-toggle span.caret').length).toBe(1);
+    });
+
+    it('should select default', function () {
+      dropdown('split');
+      var label = $document.find('button:not(.dropdown-toggle)');
+      expect(label.text()).toContain('black');
+    });
+  });
+
+  describe('simple dropdown with default selected', function () {
+    it('should provide simple dropdown when type is invalid', function () {
+      dropdown('simple-defaults');
+      var dd = $document.find('span.dropdown');
+      expect(dd.length).toBe(1);
+    });
+
+    it('should select default', function () {
+      dropdown('simple-defaults');
+      var label = $document.find('a.dropdown-toggle');
+      expect(label.text()).toContain('Some other value');
+    });
   });
 
   afterEach(function () {

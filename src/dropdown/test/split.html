@@ -1,11 +1,10 @@
 <sc-dropdown
   items="arr"
   attribute="'name'"
+  type="'split'"
   default="getDefault()"
-  label="choose from the list"
-  type="'simple'"
-  btn-class="'link'"
+  btn-class="'default'"
   on-select="do">
 </sc-dropdown>
 
-<div class="answer">{{ answer }}</div>
+<div class="selected">{{ selected }}</div>

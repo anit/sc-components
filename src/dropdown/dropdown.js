@@ -86,6 +86,7 @@ angular.module('sc-dropdown', [
         scope.item = isFunction(label)
           ? label()
           : label;
+        label = scope.item;
       }
       scope.label = scope.label || label;
 
