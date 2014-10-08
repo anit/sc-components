@@ -1,6 +1,7 @@
 [![Build Status](https://img.shields.io/travis/changer/sc-components.svg?style=flat)](https://travis-ci.org/changer/sc-components)
 [![Dependencies](https://img.shields.io/david/changer/sc-components.svg?style=flat)](https://david-dm.org/changer/sc-components)
 [![Code climate](http://img.shields.io/codeclimate/github/changer/sc-components.svg?style=flat)](https://codeclimate.com/github/changer/sc-components)
+[![Code coverage](http://img.shields.io/codeclimate/coverage/github/changer/sc-components.svg?style=flat)](https://codeclimate.com/github/changer/sc-components)
 
 ## sc-components
 

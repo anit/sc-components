@@ -3,7 +3,6 @@
 describe('sc-confirm', function () {
   var $document;
 
-  // load sc-confirm and the dependent 'ui.bootstrap' module
   beforeEach(module('ui.bootstrap', 'sc-confirm'));
   beforeEach(module('src/confirm/test/confirm.html'));
 
