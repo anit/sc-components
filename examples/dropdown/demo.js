@@ -1,3 +1,4 @@
+'use strict';
 
 angular.module('sc-dropdown-demo', [
   'sc-dropdown'

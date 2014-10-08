@@ -1,3 +1,5 @@
+'use strict';
+// jshint eqeqeq: false
 
 /*!
  * sc-components
@@ -73,14 +75,15 @@ console.log('Express app started on port ' + port);
  */
 
 function alphanum (a, b) {
+
   function chunkify(t) {
-    var tz = new Array();
+    var tz = [];
     var x = 0, y = -1, n = 0, i, j;
 
     while (i = (j = t.charAt(x++)).charCodeAt(0)) {
       var m = (i == 46 || (i >=48 && i <= 57));
       if (m !== n) {
-        tz[++y] = "";
+        tz[++y] = '';
         n = m;
       }
       tz[y] += j;
@@ -91,7 +94,7 @@ function alphanum (a, b) {
   var aa = chunkify(a.toString());
   var bb = chunkify(b.toString());
 
-  for (x = 0; aa[x] && bb[x]; x++) {
+  for (var x = 0; aa[x] && bb[x]; x++) {
     if (aa[x] !== bb[x]) {
       var c = Number(aa[x]), d = Number(bb[x]);
       if (c == aa[x] && d == bb[x]) {

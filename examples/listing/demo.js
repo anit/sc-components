@@ -1,3 +1,4 @@
+'use strict';
 
 angular.module('sc-listing-demo', [
   'ngResource',

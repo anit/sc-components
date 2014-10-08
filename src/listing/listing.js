@@ -46,7 +46,7 @@ angular.module('sc-listing', [])
         scope.onItemClick = scope.$parent.$eval(attrs.onItemClick);
       }
 
-      // Get the template
+      // template and template-url
       if (isDefined(attrs.template)) {
         template = scope.$parent.$eval(attrs.template);
         deferred.resolve(template);
