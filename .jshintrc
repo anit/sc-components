@@ -1,4 +1,14 @@
 {
+  "predef": [
+    "angular",
+    "describe",
+    "afterEach",
+    "beforeEach",
+    "it",
+    "expect",
+    "inject",
+    "$"
+  ],
   "bitwise": false,
   "immed": true,
   "newcap": true,
@@ -28,13 +38,5 @@
   "node": true,
   "browser": true,
   "globals": {
-    "angular": true,
-    "describe": true,
-    "afterEach": true,
-    "beforeEach": true,
-    "it": true,
-    "expect": true,
-    "inject": true,
-    "$": true
   }
 }
