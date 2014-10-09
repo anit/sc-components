@@ -53,47 +53,55 @@ describe('sc-confirm', function () {
     $document.find('body a').trigger('click');
     inject(function ($transition) {
       // This is always called when transition ends
-      // if ($transition.transitionEndEventName) {
-        timeout.flush();
-      // }
+      timeout.flush();
     });
   }
 
-  it('should open the modal window with given message', function () {
-    setup('template-url');
-    var title = $document.find('.modal-title');
-    expect(title.text()).toContain('Are you sure you want to remove this');
+  describe('label', function () {
+    it('should open the modal window with given message', function () {
+      setup('template-url');
+      var title = $document.find('.modal-title');
+      expect(title.text()).toContain('Are you sure you want to remove this');
+    });
   });
 
-  it('should load the template provided', function () {
-    setup('template-url');
-    var body = $document.find('.modal-body');
-    expect(body.text()).toContain('We are going to remove all the occurances of item');
-    expect(body.find('p').length).toBe(1);
-    expect(body.find('p strong').length).toBe(1);
-    expect(body.find('p strong').text()).toBe('test');
+  describe('template-url', function () {
+    it('should load the template provided', function () {
+      setup('template-url');
+      var body = $document.find('.modal-body');
+      expect(body.text()).toContain('We are going to remove all the occurances of item');
+      expect(body.find('p').length).toBe(1);
+      expect(body.find('p strong').length).toBe(1);
+      expect(body.find('p strong').text()).toBe('test');
+    });
   });
 
-  it('should call the confirm method when confirmed', function () {
-    setup('template-url');
-    $document.find('.modal-footer .btn-primary').trigger('click');
-    var answer = $document.find('.answer');
-    expect(answer.text()).toBe('You confirmed test');
+  describe('sc-confirm', function () {
+    it('should call the confirm method when confirmed', function () {
+      setup('template-url');
+      $document.find('.modal-footer .btn-primary').trigger('click');
+      var answer = $document.find('.answer');
+      expect(answer.text()).toBe('You confirmed test');
+    });
   });
 
-  it('should call the cancel method when cancelled', function () {
-    setup('template-url');
-    $document.find('.modal-footer .btn-link').trigger('click');
-    var answer = $document.find('.answer');
-    expect(answer.text()).toBe('Oops, you cancelled test');
+  describe('sc-cancel', function () {
+    it('should call the cancel method when cancelled', function () {
+      setup('template-url');
+      $document.find('.modal-footer .btn-link').trigger('click');
+      var answer = $document.find('.answer');
+      expect(answer.text()).toBe('Oops, you cancelled test');
+    });
   });
 
-  it('should use the template when provided', function () {
-    scope.template = '<div class="remove">All will be removed</div>';
-    setup('template');
-    var body = $document.find('.modal-body');
-    expect(body.find('.remove').length).toBe(1);
-    expect(body.text()).toContain('All will be removed');
+  describe('template', function () {
+    it('should use the template when provided', function () {
+      scope.template = '<div class="remove">All will be removed</div>';
+      setup('template');
+      var body = $document.find('.modal-body');
+      expect(body.find('.remove').length).toBe(1);
+      expect(body.text()).toContain('All will be removed');
+    });
   });
 
   it('should display no modal body when no template is given', function () {
@@ -106,6 +114,20 @@ describe('sc-confirm', function () {
     setup('no-template');
     var title = $document.find('.modal-title');
     expect(title.text()).toContain('Are you sure ?');
+  });
+
+  describe('btn-placement', function () {
+    it('should add appropriate class to footer', function () {
+      setup('no-template');
+      var footer = $document.find('.modal-footer');
+      expect(footer.attr('class')).toContain('sc-left');
+    });
+
+    it('should add default class when invalid', function () {
+      setup('template-url');
+      var footer = $document.find('.modal-footer');
+      expect(footer.attr('class')).toContain('sc-right');
+    });
   });
 
   // Cleanup

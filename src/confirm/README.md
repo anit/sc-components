@@ -27,3 +27,11 @@ Takes the following attributes
 - `sc-on-cancel`: (optional) A `Function` that is called after the modal is cancelled
 - `template`: (optional) A template `String` that is loaded within the modal body
 - `template-url`: (optional) Path of a template that is loaded within the modal body
+- `btn-placement`: (optional) A `String` that adds a class to the modal footer.
+ Valid options are `left`, `right` and `center`. Default value is `right`. The class added to modal footer is prefixed with `sc-`. So class would be `sc-left`. In your css, you can use align this by using
+
+  ```css
+  .modal-footer.sc-left {
+    text-align: left;
+  }
+  ```

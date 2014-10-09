@@ -17,6 +17,7 @@
  *    sc-confirm-message="Are you sure custom message?"
  *    sc-on-cancel="cancel()"
  *    template-url="'/templates/confirm.html'"
+ *    btn-placement="'left'"
  *    item="resource">
  *  </a>
  */
@@ -30,7 +31,8 @@ angular.module('sc-confirm', [
  */
 
 .constant('scConfirmDefaults', {
-  message: 'Are you sure ?'
+  message: 'Are you sure ?',
+  btnPlacement: 'right'
 })
 
 .directive('scConfirm', [
@@ -46,12 +48,14 @@ angular.module('sc-confirm', [
         var isDefined = angular.isDefined;
         var deferred = $q.defer();
         var promise = deferred.promise;
+        var validPlacements = ['left', 'center', 'right'];
+        var btnPlacement;
         var template;
         var templateUrl;
 
         // Parse attrs
 
-        // template and templateUrl
+        // template and template-url
         if (isDefined(attrs.template)) {
           template = scope.$parent.$eval(attrs.template);
           deferred.resolve(template);
@@ -66,6 +70,15 @@ angular.module('sc-confirm', [
           deferred.resolve('');
         }
 
+        // btn-placement
+        if (isDefined(attrs.btnPlacement)) {
+          btnPlacement = scope.$parent.$eval(attrs.btnPlacement);
+        }
+
+        if (!~validPlacements.indexOf(btnPlacement)) {
+          btnPlacement = defaults.btnPlacement;
+        }
+
         promise.then(function (tpl) {
           var message = attrs.scConfirmMessage || defaults.message;
           var modalHtml = [
@@ -76,7 +89,7 @@ angular.module('sc-confirm', [
             '<div class="modal-body">',
             '  '+ tpl +'&nbsp;',
             '</div>',
-            '<div class="modal-footer">',
+            '<div class="modal-footer sc-'+ btnPlacement +'">',
             '  <button class="btn btn-primary" ng-click="ok()">Yes</button>',
             '  <button class="btn btn-link" ng-click="cancel()">Cancel</button>',
             '</div>'
