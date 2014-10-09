@@ -88,6 +88,7 @@ describe('sc-confirm', function () {
   describe('sc-cancel', function () {
     it('should call the cancel method when cancelled', function () {
       setup('template-url');
+      // click on cancel
       $document.find('.modal-footer .btn-link').trigger('click');
       var answer = $document.find('.answer');
       expect(answer.text()).toBe('Oops, you cancelled test');
