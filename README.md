@@ -9,6 +9,12 @@ Simple angular UI components that we reuse across all of our apps.
 
 ## Installation
 
+```sh
+$ bower install sc-components
+```
+
+## Development
+
 Clone the repo, make sure you have [npm](https://www.npmjs.org/), [bower](http://bower.io/) and [gulp](http://gulpjs.com/) installed. By running the following you can checkout the `examples/`
 
 ```sh
@@ -16,6 +22,8 @@ $ npm install
 $ bower install
 $ npm start
 ```
+
+Open `http://localhost:3000`
 
 ## Components
 
@@ -33,6 +41,8 @@ The following components are available
 ```sh
 $ npm test
 ```
+
+This will generate test coverage in `coverage/` folder. You can visit `http://localhost:3000/lcov-report` to see the coverage and to improve it.
 
 ## License
 
