@@ -39,8 +39,12 @@ angular.module('sc-list', [])
    */
 
   function List (Resource, options) {
-    if (Resource.prototype.constructor.name !== 'Resource') {
+    if (!Resource || Resource.prototype.constructor.name !== 'Resource') {
       throw new Error('Resource must be an instance of $resource');
+    }
+
+    if (typeof Resource.query !== 'function') {
+      throw new Error('Resource must have a query function');
     }
 
     options = options || {};
