@@ -1,10 +1,10 @@
 {
   "name": "sc-components",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "authors": [
     "Madhusudhan Srinivasa <madhu@changer.nl>"
   ],
-  "description": "lists",
+  "description": "Simple reusable angular UI components",
   "keywords": [
     "ui",
     "components",
@@ -13,23 +13,30 @@
     "confirm",
     "form"
   ],
+  "main": "./dist/sc-components.min.js",
   "license": "MIT",
   "ignore": [
     "**/.*",
+    "coverage",
+    "examples",
     "node_modules",
-    "bower_components",
-    "examples/components",
-    "test",
-    "tests"
+    "src",
+    ".*",
+    "CONTRIBUTING.md",
+    "README.md",
+    "gulpfile.js",
+    "karma.conf.js",
+    "*.json",
+    "Procfile"
   ],
   "devDependencies": {
-    "angular": "~1.2.25",
+    "angular-busy": "~4.1.0",
+    "angular-mocks": "~1.2.26",
+    "angular-resource": "~1.2.26",
     "jquery": "~2.1.1"
   },
   "dependencies": {
-    "angular-resource": "~1.2.26",
-    "angular-busy": "~4.1.0",
-    "angular-bootstrap": "~0.11.2",
-    "angular-mocks": "~1.2.26"
+    "angular": "~1.2.x",
+    "angular-bootstrap": "~0.11.2"
   }
 }
