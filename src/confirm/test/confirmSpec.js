@@ -57,7 +57,7 @@ describe('sc-confirm', function () {
     });
   }
 
-  describe('label', function () {
+  describe('sc-confirm-message', function () {
     it('should open the modal window with given message', function () {
       setup('template-url');
       var title = $document.find('.modal-title');
