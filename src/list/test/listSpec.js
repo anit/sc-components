@@ -48,7 +48,7 @@ describe('sc-list', function () {
     });
   });
 
-  describe('list.options and properties', function () {
+  describe('list instance', function () {
     it('should provide sort, goto, refresh and fetch methods', function () {
       var list = new List(Item);
       expect(list.sort).toBeDefined();
@@ -97,8 +97,8 @@ describe('sc-list', function () {
     });
   });
 
-  describe('.sort()', function () {
-    it('.sort() and filter should set query params', function () {
+  describe('.sort() and options.filter', function () {
+    it('should set proper query params', function () {
       var list = new List(Item, { filter: 'ite', sort_type: -1 });
       var req = httpBackend.expect('GET', /\/items/);
       list.sort('age', 1);
@@ -116,7 +116,7 @@ describe('sc-list', function () {
   });
 
   describe('.goto()', function () {
-    it('.goto() should set page param', function () {
+    it('should set page param', function () {
       var list = new List(Item, { filter: 'ite', sort_type: -1 });
       var req = httpBackend.expect('GET', /\/items/);
       list.goto(2);
