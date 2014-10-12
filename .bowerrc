@@ -1,3 +1,10 @@
 {
-  "directory": "examples/components"
+  "directory": "examples/components",
+  "registry": {
+    "register": "http://localhost:3000",
+    "search": [
+      "https://bower.herokuapp.com",
+      "http://localhost:3000"
+    ]
+  }
 }
