@@ -10,10 +10,10 @@ describe('sc-dropdown', function () {
   beforeEach(module('ui.bootstrap', 'sc-listing'));
   beforeEach(module('sc-dropdown'));
   beforeEach(module(
-    'src/dropdown/test/simple-defaults.html',
-    'src/dropdown/test/simple.html',
-    'src/dropdown/test/single.html',
-    'src/dropdown/test/split.html'
+    'src/dropdown/simple-defaults.html',
+    'src/dropdown/simple.html',
+    'src/dropdown/single.html',
+    'src/dropdown/split.html'
   ));
 
   beforeEach(inject(function ($rootScope, $compile, _$document_, $templateCache, $timeout) {
@@ -44,7 +44,7 @@ describe('sc-dropdown', function () {
   }));
 
   function dropdown (type) {
-    var tpl = templateCache.get('src/dropdown/test/' + type + '.html');
+    var tpl = templateCache.get('src/dropdown/' + type + '.html');
     var elm = angular.element(tpl);
     angular.element('body').append(elm);
     compile(elm)(scope);

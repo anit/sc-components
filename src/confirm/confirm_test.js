@@ -11,10 +11,10 @@ describe('sc-confirm', function () {
   beforeEach(module('ui.bootstrap'));
   beforeEach(module('sc-confirm'));
   beforeEach(module(
-    'src/confirm/test/template.html',
-    'src/confirm/test/template-url.html',
-    'src/confirm/test/no-template.html',
-    'src/confirm/test/confirm.html'
+    'src/confirm/template.html',
+    'src/confirm/template-url.html',
+    'src/confirm/no-template.html',
+    'src/confirm/confirm.html'
   ));
 
   beforeEach(inject(function ($rootScope, $compile, _$document_, $timeout, $templateCache) {
@@ -24,7 +24,7 @@ describe('sc-confirm', function () {
     compile = $compile;
     timeout = $timeout;
 
-    scope.template = 'src/confirm/test/confirm.html';
+    scope.template = 'src/confirm/confirm.html';
     scope.remove = function (item) {
       scope.answer = 'You confirmed ' + item.name;
     };
@@ -44,7 +44,7 @@ describe('sc-confirm', function () {
    */
 
   function setup (type) {
-    var tpl = templateCache.get('src/confirm/test/'+ type +'.html');
+    var tpl = templateCache.get('src/confirm/'+ type +'.html');
     elm = angular.element(tpl);
     angular.element('body').append(elm);
     compile(elm)(scope);

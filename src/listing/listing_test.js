@@ -9,10 +9,10 @@ describe('sc-listing', function () {
   beforeEach(module('ui.bootstrap'));
   beforeEach(module('sc-listing'));
   beforeEach(module(
-    'src/listing/test/template.html',
-    'src/listing/test/template-url.html',
-    'src/listing/test/no-template.html',
-    'src/listing/test/list-item.html'
+    'src/listing/template.html',
+    'src/listing/template-url.html',
+    'src/listing/no-template.html',
+    'src/listing/list-item.html'
   ));
 
   beforeEach(inject(function ($rootScope, $compile, _$document_, $templateCache) {
@@ -32,7 +32,7 @@ describe('sc-listing', function () {
     }
 
     scope.items = items;
-    scope.tplPath = 'src/listing/test/list-item.html';
+    scope.tplPath = 'src/listing/list-item.html';
     scope.tpl = '<span>{{ item.name }}</span>';
     scope.showItem = function (item, index) {
       scope.index = index;
@@ -41,7 +41,7 @@ describe('sc-listing', function () {
   }));
 
   function setup (type) {
-    var tpl = templateCache.get('src/listing/test/' + type + '.html');
+    var tpl = templateCache.get('src/listing/' + type + '.html');
     var elm = angular.element(tpl);
     angular.element('body').append(elm);
     compile(elm)(scope);

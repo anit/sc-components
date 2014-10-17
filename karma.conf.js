@@ -29,14 +29,11 @@ module.exports = function(config) {
       'examples/components/angular-mocks/angular-mocks.js',
       'examples/components/angular-busy/dist/angular-busy.js',
 
-      // src
+      // src and tests
       'src/**/*.js',
 
       // templates
-      'src/**/test/*.html',
-
-      // tests
-      'src/**/test/*.js'
+      'src/**/*.html'
     ],
 
 
@@ -49,7 +46,7 @@ module.exports = function(config) {
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors: {
       // html2js
-      'src/**/test/*.html': 'ng-html2js',
+      'src/**/*.html': 'ng-html2js',
 
       // istanbul coverage
       'src/**/*.js': ['coverage']
