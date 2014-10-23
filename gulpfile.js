@@ -8,6 +8,7 @@ var sourcemaps = require('gulp-sourcemaps');
 var concat = require('gulp-concat');
 var uglify = require('gulp-uglify');
 var rename = require('gulp-rename');
+var ignore = require('gulp-ignore');
 var header = require('gulp-header');
 var footer = require('gulp-footer');
 var minimist = require('minimist');
@@ -59,7 +60,7 @@ gulp.task('bump', function () {
 gulp.task('concat', ['bump'], function () {
   pkg = require('./bower.json');
   dist = './dist';
-  return gulp.src(['./src/*.js', './src/*/*.js'])
+  return gulp.src(['./src/*.js', './src/*/*.js', '!./src/*/*_test.js'])
     .pipe(sourcemaps.init())
     .pipe(concat(pkg.name +'.js'))
     .pipe(header(banner, { pkg: pkg }))
