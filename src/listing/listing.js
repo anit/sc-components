@@ -34,8 +34,8 @@ angular.module('sc-listing', [])
       var isDefined = angular.isDefined;
       var deferred = $q.defer();
       var promise = deferred.promise;
-      var classes = ['list'];
-      var itemClass = ['list-item'];
+      var classes = ['list sc-list'];
+      var itemClass = ['list-item sc-list-item'];
       var template;
       var templateUrl;
 
