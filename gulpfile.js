@@ -60,7 +60,12 @@ gulp.task('bump', function () {
 gulp.task('concat', ['bump'], function () {
   pkg = require('./bower.json');
   dist = './dist';
-  return gulp.src(['./src/*.js', './src/*/*.js', '!./src/*/*_test.js'])
+  return gulp.src([
+      './src/*.js',
+      './src/*/*.js',
+      '!./src/*/*_test.js', // ignore test files
+      '!./src/form-input'  // ignore form-input
+    ])
     .pipe(sourcemaps.init())
     .pipe(concat(pkg.name +'.js'))
     .pipe(header(banner, { pkg: pkg }))
