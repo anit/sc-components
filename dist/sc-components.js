@@ -1,7 +1,7 @@
 /**
  * sc-components
  * Simple reusable angular UI components
- * @version 0.1.6
+ * @version 0.1.7
  * Copyright(c) SafetyChanger
  * @license MIT
  */
@@ -528,6 +528,11 @@ angular.module('sc-listing', [])
         itemClass.push(scope.$parent.$eval(attrs.itemClass));
       }
 
+      // active
+      scope.active = isDefined(attrs.active)
+        ? scope.$parent.$eval(attrs.active)
+        : angular.noop;
+
       classes = classes.join(' ');
       itemClass = itemClass.join(' ');
 
@@ -536,7 +541,7 @@ angular.module('sc-listing', [])
 
         var template = [
           '<ul class="'+ classes +'">',
-          '  <li class="'+ itemClass +'" ng-repeat="item in items" ng-click="onItemClick(item, $index)">',
+          '  <li class="'+ itemClass +'" ng-repeat="item in items" ng-click="onItemClick(item, $index)" ng-class="{ \'active\': active(item) }">',
           '    '+ tpl,
           '  </li>',
           '</ul>'
