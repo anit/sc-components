@@ -71,6 +71,11 @@ angular.module('sc-listing', [])
         itemClass.push(scope.$parent.$eval(attrs.itemClass));
       }
 
+      // active
+      scope.active = isDefined(attrs.active)
+        ? scope.$parent.$eval(attrs.active)
+        : angular.noop;
+
       classes = classes.join(' ');
       itemClass = itemClass.join(' ');
 
@@ -79,7 +84,7 @@ angular.module('sc-listing', [])
 
         var template = [
           '<ul class="'+ classes +'">',
-          '  <li class="'+ itemClass +'" ng-repeat="item in items" ng-click="onItemClick(item, $index)">',
+          '  <li class="'+ itemClass +'" ng-repeat="item in items" ng-click="onItemClick(item, $index)" ng-class="{ \'active\': active(item) }">',
           '    '+ tpl,
           '  </li>',
           '</ul>'

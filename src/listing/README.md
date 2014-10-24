@@ -7,11 +7,22 @@ Provides a simple listing
 ```html
 <sc-listing
   items="items"
-  on-item-click="showItem"
+  on-item-click="show"
   class="'items'"
   item-class="'item'"
-  template-url="'/templates/list-item.html'">
+  template-url="'/templates/list-item.html'"
+  active="active">
 </sc-listing>
+```
+
+```js
+$scope.show = function (item) {
+  // $state.go('list.detail', { id: item._id })
+};
+
+$scope.active = function (item) {
+  return item._id == $state.params.id;
+}
 ```
 
 ## API
@@ -24,3 +35,4 @@ Takes the following attributes
 - `template`: (optional) A template string (either this or template-url is needed otherwise a json will be shown)
 - `class`: (optional) `String` css class to be applied on the list `<ul>`
 - `item-class`: (optional) `String` css class to be applied on the list item `<li>`
+- `active`: (optional) A `Function` that is called to apply the `active` class on `ul > li`
