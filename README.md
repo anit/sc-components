@@ -19,7 +19,6 @@ Clone the repo, make sure you have [npm](https://www.npmjs.org/), [bower](http:/
 
 ```sh
 $ npm install
-$ bower install
 $ npm start
 ```
 
