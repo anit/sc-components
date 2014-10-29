@@ -27,9 +27,6 @@ angular.module('sc-listing', [])
 .directive('scListing', function ($compile, $http, $q, $templateCache) {
   return {
     restrict: 'E',
-    scope: {
-      items: '='
-    },
     link: function (scope, element, attrs) {
       var isDefined = angular.isDefined;
       var deferred = $q.defer();
@@ -43,15 +40,15 @@ angular.module('sc-listing', [])
 
       // on-item-click
       if (isDefined(attrs.onItemClick)) {
-        scope.onItemClick = scope.$parent.$eval(attrs.onItemClick);
+        scope.onItemClick = scope.$eval(attrs.onItemClick);
       }
 
       // template and template-url
       if (isDefined(attrs.template)) {
-        template = scope.$parent.$eval(attrs.template);
+        template = scope.$eval(attrs.template);
         deferred.resolve(template);
       } else if (isDefined(attrs.templateUrl)) {
-        templateUrl = scope.$parent.$eval(attrs.templateUrl);
+        templateUrl = scope.$eval(attrs.templateUrl);
         $http.get(templateUrl, { cache: $templateCache })
           .success(function (html) {
             deferred.resolve(html);
@@ -68,12 +65,12 @@ angular.module('sc-listing', [])
 
       // item-class
       if (isDefined(attrs.itemClass)) {
-        itemClass.push(scope.$parent.$eval(attrs.itemClass));
+        itemClass.push(scope.$eval(attrs.itemClass));
       }
 
       // active
       scope.active = isDefined(attrs.active)
-        ? scope.$parent.$eval(attrs.active)
+        ? scope.$eval(attrs.active)
         : angular.noop;
 
       classes = classes.join(' ');
