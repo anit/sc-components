@@ -38,6 +38,9 @@ angular.module('sc-listing', [])
 
       // Parse attrs
 
+      // items
+      scope.items = scope.$eval(attrs.items);
+
       // on-item-click
       if (isDefined(attrs.onItemClick)) {
         scope.onItemClick = scope.$eval(attrs.onItemClick);
