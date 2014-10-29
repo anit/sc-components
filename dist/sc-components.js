@@ -1,7 +1,7 @@
 /**
  * sc-components
  * Simple reusable angular UI components
- * @version 0.1.8
+ * @version 0.1.9
  * Copyright(c) SafetyChanger
  * @license MIT
  */
@@ -196,9 +196,6 @@ angular.module('sc-dropdown', [
 .directive('scDropdown', ['$compile', 'scDropdownDefaults', function ($compile, defaults) {
   return {
     restrict: 'E',
-    scope: {
-      items: '='
-    },
     link: function (scope, element, attrs) {
       var isDefined = angular.isDefined;
       var isFunction = angular.isFunction;
@@ -214,12 +211,15 @@ angular.module('sc-dropdown', [
 
       // Parse
 
+      // items
+      scope.items = scope.$eval(attrs.items);
+
       // attribute
-      var attribute = scope.$parent.$eval(attrs.attribute);
+      var attribute = scope.$eval(attrs.attribute);
 
       // type
       if (isDefined(attrs.type)) {
-        type = scope.$parent.$eval(attrs.type);
+        type = scope.$eval(attrs.type);
         type = !~validTypes.indexOf(type)
           ? 'simple'
           : type;
@@ -227,12 +227,12 @@ angular.module('sc-dropdown', [
 
       // label
       if (isDefined(attrs.label)) {
-        scope.label = scope.$parent.$eval(attrs.label);
+        scope.label = scope.$eval(attrs.label);
       }
 
       // default
       if (isDefined(attrs.default)) {
-        label = scope.$parent.$eval(attrs.default);
+        label = scope.$eval(attrs.default);
         scope.item = isFunction(label)
           ? label()
           : label;
@@ -242,12 +242,12 @@ angular.module('sc-dropdown', [
 
       // btn-class
       if (isDefined(attrs.btnClass)) {
-        btnDefault = scope.$parent.$eval(attrs.btnClass);
+        btnDefault = scope.$eval(attrs.btnClass);
       }
       btnClass = btnClass + btnDefault;
 
       // on-select
-      var onSelect = scope.$parent.$eval(attrs.onSelect);
+      var onSelect = scope.$eval(attrs.onSelect);
 
       // Check if the items is an array of objects or strings
       // and depending on that, build the template
