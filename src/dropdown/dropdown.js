@@ -8,7 +8,7 @@
  * Dependencies
  *
  *    sc-listing
- *    ui.bootstrap
+ *    ui.bootstrap.dropdown
  *
  * Usage:
  *
@@ -29,7 +29,7 @@
 
 angular.module('sc-dropdown', [
   'sc-listing',
-  'ui.bootstrap'
+  'ui.bootstrap.dropdown'
 ])
 
 /**
