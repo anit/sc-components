@@ -97,6 +97,7 @@ angular.module('sc-list', [])
 
   List.prototype.refresh =
   List.prototype.fetch = function (options) {
+    var self = this;
     options = options || {};
     options.limit = options.limit || this.options.limit;
     options.filter = options.filter || this.options.filter;
@@ -105,9 +106,14 @@ angular.module('sc-list', [])
     options.sort_type = options.sort_type || this.options.sort_type;
 
     this.options = options;
-    this.items = this.Resource.query(this.options);
-    this.$promise = this.items.$promise;
-    return this.items;
+    var items = this.Resource.query(this.options);
+    if (!this.items) this.items = [];
+    this.items['$promise'] = items.$promise;
+    this.$promise = items.$promise;
+    items.$promise.then(function () {
+      self.items = items;
+    });
+    return items;
   };
 
   return List;

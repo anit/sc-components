@@ -1,7 +1,7 @@
 /**
  * sc-components
  * Simple reusable angular UI components
- * @version 0.1.10
+ * @version 0.1.11
  * Copyright(c) SafetyChanger
  * @license MIT
  */
@@ -439,6 +439,7 @@ angular.module('sc-list', [])
 
   List.prototype.refresh =
   List.prototype.fetch = function (options) {
+    var self = this;
     options = options || {};
     options.limit = options.limit || this.options.limit;
     options.filter = options.filter || this.options.filter;
@@ -447,9 +448,14 @@ angular.module('sc-list', [])
     options.sort_type = options.sort_type || this.options.sort_type;
 
     this.options = options;
-    this.items = this.Resource.query(this.options);
-    this.$promise = this.items.$promise;
-    return this.items;
+    var items = this.Resource.query(this.options);
+    if (!this.items) this.items = [];
+    this.items['$promise'] = items.$promise;
+    this.$promise = items.$promise;
+    items.$promise.then(function () {
+      self.items = items;
+    });
+    return items;
   };
 
   return List;
@@ -484,6 +490,9 @@ angular.module('sc-listing', [])
 .directive('scListing', function ($compile, $http, $q, $templateCache) {
   return {
     restrict: 'E',
+    scope: {
+      items: '='
+    },
     link: function (scope, element, attrs) {
       var isDefined = angular.isDefined;
       var deferred = $q.defer();
@@ -495,20 +504,17 @@ angular.module('sc-listing', [])
 
       // Parse attrs
 
-      // items
-      scope.items = scope.$eval(attrs.items);
-
       // on-item-click
       if (isDefined(attrs.onItemClick)) {
-        scope.onItemClick = scope.$eval(attrs.onItemClick);
+        scope.onItemClick = scope.$parent.$eval(attrs.onItemClick);
       }
 
       // template and template-url
       if (isDefined(attrs.template)) {
-        template = scope.$eval(attrs.template);
+        template = scope.$parent.$eval(attrs.template);
         deferred.resolve(template);
       } else if (isDefined(attrs.templateUrl)) {
-        templateUrl = scope.$eval(attrs.templateUrl);
+        templateUrl = scope.$parent.$eval(attrs.templateUrl);
         $http.get(templateUrl, { cache: $templateCache })
           .success(function (html) {
             deferred.resolve(html);
@@ -525,12 +531,12 @@ angular.module('sc-listing', [])
 
       // item-class
       if (isDefined(attrs.itemClass)) {
-        itemClass.push(scope.$eval(attrs.itemClass));
+        itemClass.push(scope.$parent.$eval(attrs.itemClass));
       }
 
       // active
       scope.active = isDefined(attrs.active)
-        ? scope.$eval(attrs.active)
+        ? scope.$parent.$eval(attrs.active)
         : angular.noop;
 
       classes = classes.join(' ');
