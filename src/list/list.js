@@ -105,7 +105,7 @@ angular.module('sc-list', [])
     options.sort_by = options.sort_by || this.options.sort_by;
     options.sort_type = options.sort_type || this.options.sort_type;
 
-    this.options = options;
+    angular.extend(this.options, options);
     var items = this.Resource.query(this.options);
     if (!this.items) this.items = [];
     this.items['$promise'] = items.$promise;
