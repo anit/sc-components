@@ -11,18 +11,20 @@ Simple dropdowns that remember your selection!
 
 ```html
   <sc-dropdown
-    items="items"
+    items="arr"
     attribute="'name'"
-    default="getDefault()"
-    label="'choose from the list'"
-    type="'simple'"
+    default="getDefault"
+    label="'Choose a color'"
+    type="'single'"
     btn-class="'link'"
-    on-select="doSomething">
+    flavor="'single'"
+    keep-label
+    on-select="show">
   </sc-dropdown>
 ```
 
 ```js
-$scope.items = [
+$scope.arr = [
   { id: 1, name: 'black' },
   { id: 2, name: 'blue' }
 ];
@@ -31,7 +33,7 @@ $scope.getDefault = function () {
   return $scope.items[0];
 };
 
-$scope.doSomething = angular.noop;
+$scope.show = angular.noop;
 ```
 
 ## API
@@ -49,4 +51,4 @@ The following attributes are applicable
 - `btn-class`: (optional) When the `type` is single or split, the class to be applied to dropdowns button. Can be one of `primary`, `success`, `info`, `warning`, `link` and `danger`. Defaults to `link`.
 - `on-select`: (optional) A `Function` that is called when the dropdown is selected. The `item` is passed as an argument
 - `keep-label`: (optional) Always displays the label even when an item is selected from the dropdown
-- `flavor-type`: (optional) There are two flavors
+- `flavor`: (optional) There are two flavors. `single` and `multiple`. Flavors are offered for single select and multiple select functionality.
