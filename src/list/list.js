@@ -49,8 +49,8 @@ angular.module('sc-list', [])
 
     options = options || {};
     this.options = {};
+    angular.extend(this.options, options);
     this.options.limit = options.limit || defaults.limit;
-    this.options.filter = options.filter;
     this.options.page = options.page || defaults.page;
     this.options.sort_by = options.sort_by;
     this.options.sort_type = options.sort_type || defaults.sort_type;
@@ -100,7 +100,6 @@ angular.module('sc-list', [])
     var self = this;
     options = options || {};
     options.limit = options.limit || this.options.limit;
-    options.filter = options.filter || this.options.filter;
     options.page = options.page || this.options.page;
     options.sort_by = options.sort_by || this.options.sort_by;
     options.sort_type = options.sort_type || this.options.sort_type;
