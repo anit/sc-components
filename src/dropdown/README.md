@@ -52,3 +52,8 @@ The following attributes are applicable
 - `on-select`: (optional) A `Function` that is called when the dropdown is selected. The `item` is passed as an argument
 - `keep-label`: (optional) Always displays the label even when an item is selected from the dropdown
 - `flavor`: (optional) There are two flavors. `single` and `multiple`. Flavors are offered for single select and multiple select functionality.
+
+## Classes available
+
+- `sc-dropdown`: for the dropdown menu itself
+- `sc-dropdown-selected`: for the button or link label when a selection is active
