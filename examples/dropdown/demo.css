@@ -12,6 +12,11 @@
   /*background: @dropdown-header-bg;*/
 }
 
+.sc-dropdown.dropdown-menu > .sc-dropdown-footer {
+  padding: 10px 20px 5px;
+  border-top: 1px solid #eee;
+}
+
 .sc-dropdown.dropdown-menu > .sc-dropdown-header a {
   color: #ccc;
   font-weight: bold;

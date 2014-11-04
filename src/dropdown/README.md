@@ -19,6 +19,8 @@ Simple dropdowns that remember your selection!
     btn-class="'link'"
     flavor="'single'"
     keep-label
+    auto-select="false"
+    footer
     on-select="show">
   </sc-dropdown>
 ```
@@ -52,8 +54,12 @@ The following attributes are applicable
 - `on-select`: (optional) A `Function` that is called when the dropdown is selected. The `item` is passed as an argument
 - `keep-label`: (optional) Always displays the label even when an item is selected from the dropdown
 - `flavor`: (optional) There are two flavors. `single` and `multiple`. Flavors are offered for single select and multiple select functionality.
+- `footer`: (optional) Displays a footer containing "apply" button, clicking on which the `on-select` method is called.
+- `auto-select`: (optional) Turn off calling of `on-select` method when clicked on a list item. Default is `true`
 
 ## Classes available
 
 - `sc-dropdown`: for the dropdown menu itself
 - `sc-dropdown-selected`: for the button or link label when a selection is active
+- `sc-dropdown-header`
+- `sc-dropdown-footer`
