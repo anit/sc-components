@@ -1,7 +1,7 @@
 /**
  * sc-components
  * Simple reusable angular UI components
- * @version 0.1.14
+ * @version 0.1.15
  * Copyright(c) SafetyChanger
  * @license MIT
  */
@@ -206,7 +206,7 @@ angular.module('sc-dropdown', [
       var validFlavors = ['single', 'multiple'];
       var dropdown = {};
       var labelTpl;
-      var flavor = {};
+      var flavor;
       var startTag = '';
       var closeTag = '';
       var active = '';
@@ -218,10 +218,16 @@ angular.module('sc-dropdown', [
       var type = defaults.type;
       var label = defaults.label;
 
+      // Will contain `item` (single select) and `items` (multiple select)
+      scope.selected = {};
+
       // Parse
 
       // attribute
       var attribute = scope.$parent.$eval(attrs.attribute);
+
+      // keep-label
+      var keepLabel = isDefined(attrs.keepLabel);
 
       // type
       if (isDefined(attrs.type)) {
@@ -237,9 +243,9 @@ angular.module('sc-dropdown', [
       }
 
       // flavor
-      if (isDefined(attrs.flavorType)) {
-        flavor.type = scope.$parent.$eval(attrs.flavorType);
-        if (!~validFlavors.indexOf(flavor.type)) flavor.type = undefined;
+      if (isDefined(attrs.flavor)) {
+        flavor = scope.$parent.$eval(attrs.flavor);
+        if (!~validFlavors.indexOf(flavor)) flavor = undefined;
       }
 
       // flavor compare
@@ -248,10 +254,12 @@ angular.module('sc-dropdown', [
       // }
 
       function comparator (_item) {
-        if (flavor.type === 'single') return angular.equals(_item, scope.item);
+        if (flavor !== 'multiple') {
+          return angular.equals(_item, scope.selected.item);
+        }
 
         // multiple
-        return scope._items.filter(function (item) {
+        return scope.selected.items.filter(function (item) {
           return angular.equals(_item, item);
         }).length;
       }
@@ -259,10 +267,10 @@ angular.module('sc-dropdown', [
       // default
       if (isDefined(attrs.default)) {
         label = scope.$parent.$eval(attrs.default);
-        scope.item = isFunction(label)
+        scope.selected.item = isFunction(label)
           ? label()
           : label;
-        label = scope.item;
+        label = scope.selected.item;
       }
       scope.label = scope.label || label;
 
@@ -279,33 +287,40 @@ angular.module('sc-dropdown', [
       // and depending on that, build the template
 
       if (typeof scope.items[0] !== 'string') {
-        labelTpl = '{{ item[\''+ attribute +'\'] || label }}';
+        labelTpl = '{{ selected.item[\''+ attribute +'\'] || label }}';
         scope.template = '<a href>{{ item[\''+ attribute +'\'] }}</a>';
       } else {
-        attribute = undefined;
-        labelTpl = '{{ item || label }}';
+        labelTpl = '{{ selected.item || label }}';
         scope.template = '<a href>{{ item }}</a>';
       }
 
+      // if keep-label was passed as an attr, make sure the label is
+      // shown always
+      if (keepLabel) labelTpl = scope.label;
+
       // for multiple select, remember the selected ones in `_items`
-      if (flavor.type === 'multiple') scope._items = [];
+      if (flavor === 'multiple') scope.selected.items = [];
 
       scope.select = function (item) {
         // single select
-        scope.item = item;
-        if (flavor.type !== 'multiple') return onSelect(item);
+        if (scope.selected.item && angular.equals(scope.selected.item, item)) {
+          scope.selected.item = undefined;
+        } else {
+          scope.selected.item = item;
+        }
+        if (flavor !== 'multiple') return onSelect(scope.selected.item);
 
         // for multiple select
         var index = -1;
-        scope._items.forEach(function (_item, idx) {
+        scope.selected.items.forEach(function (_item, idx) {
           if (angular.equals(_item, item)) index = idx;
         });
-        if (!~index) scope._items.push(item);
-        else scope._items.splice(index, 1);
-        onSelect(scope._items);
+        if (!~index) scope.selected.items.push(item);
+        else scope.selected.items.splice(index, 1);
+        onSelect(scope.selected.items);
       };
 
-      if (flavor.type) {
+      if (flavor) {
         startTag = [
           '<div class="sc-dropdown '+ dropdownClass +'" ng-click="$event.stopPropagation()">',
           '  <div class="sc-dropdown-header">',
@@ -334,6 +349,8 @@ angular.module('sc-dropdown', [
         dropdownClass = '';
       }
 
+      var activeSelection = 'ng-class="{ \'sc-dropdown-selected\': (selected.item || selected.items.length) }"';
+
       var listing = [
         startTag,
         '  <sc-listing class="'+ dropdownClass +'"',
@@ -347,7 +364,7 @@ angular.module('sc-dropdown', [
 
       dropdown.simple = [
         '<span class="dropdown">',
-        '  <a href class="dropdown-toggle">',
+        '  <a href class="dropdown-toggle" '+ activeSelection +'>',
         '    ' + labelTpl,
         '  </a>',
         '  ' + listing,
@@ -356,7 +373,7 @@ angular.module('sc-dropdown', [
 
       dropdown.single = [
         '<div class="btn-group" dropdown>',
-        '  <button type="button" class="'+ btnClass +' dropdown-toggle">',
+        '  <button type="button" class="'+ btnClass +' dropdown-toggle" '+ activeSelection +'>',
         '    ' + labelTpl + ' <span class="caret"></span>',
         '  </button>',
         '  ' + listing,
@@ -365,7 +382,7 @@ angular.module('sc-dropdown', [
 
       dropdown.split = [
         '<div class="btn-group" dropdown>',
-        '  <button type="button" class="'+ btnClass +'">'+ labelTpl +'</button>',
+        '  <button type="button" class="'+ btnClass +'" '+ activeSelection +'>'+ labelTpl +'</button>',
         '  <button type="button" class="'+ btnClass +' dropdown-toggle">',
         '    <span class="caret"></span>',
         '  </button>',
