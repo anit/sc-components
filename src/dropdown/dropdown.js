@@ -73,6 +73,9 @@ angular.module('sc-dropdown', [
       // attribute
       var attribute = scope.$parent.$eval(attrs.attribute);
 
+      // keep-label
+      var keepLabel = isDefined(attrs.keepLabel);
+
       // type
       if (isDefined(attrs.type)) {
         type = scope.$parent.$eval(attrs.type);
@@ -98,7 +101,9 @@ angular.module('sc-dropdown', [
       // }
 
       function comparator (_item) {
-        if (flavor.type === 'single') return angular.equals(_item, scope.item);
+        if (flavor.type !== 'multiple') {
+          return angular.equals(_item, scope.item);
+        }
 
         // multiple
         return scope._items.filter(function (item) {
@@ -132,10 +137,13 @@ angular.module('sc-dropdown', [
         labelTpl = '{{ item[\''+ attribute +'\'] || label }}';
         scope.template = '<a href>{{ item[\''+ attribute +'\'] }}</a>';
       } else {
-        attribute = undefined;
         labelTpl = '{{ item || label }}';
         scope.template = '<a href>{{ item }}</a>';
       }
+
+      // if keep-label was passed as an attr, make sure the label is
+      // shown always
+      if (keepLabel) labelTpl = scope.label;
 
       // for multiple select, remember the selected ones in `_items`
       if (flavor.type === 'multiple') scope._items = [];
