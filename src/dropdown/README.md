@@ -7,6 +7,12 @@ Simple dropdowns that remember your selection!
     sc-listing
     ui.bootstrap
 
+## Preview
+
+![nothing selected, without footer](https://cldup.com/UYe0J6oJLF-1200x1200.png)
+![multiple select](https://cldup.com/iD0M7AAO7v-2000x2000.png)
+![single select](https://cldup.com/ovELlJvDd4-2000x2000.png)
+
 ## Usage
 
 ```html
