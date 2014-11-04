@@ -1,7 +1,7 @@
 /**
  * sc-components
  * Simple reusable angular UI components
- * @version 0.1.16
+ * @version 0.1.17
  * Copyright(c) SafetyChanger
  * @license MIT
  */
@@ -207,8 +207,10 @@ angular.module('sc-dropdown', [
       var dropdown = {};
       var labelTpl;
       var flavor;
+      var autoSelect = true;
       var startTag = '';
       var closeTag = '';
+      var footer = '';
       var active = '';
       var dropdownClass = 'dropdown-menu';
 
@@ -228,6 +230,11 @@ angular.module('sc-dropdown', [
 
       // keep-label
       var keepLabel = isDefined(attrs.keepLabel);
+
+      // auto-select
+      if (isDefined(attrs.autoSelect)) {
+        autoSelect = scope.$parent.$eval(attrs.autoSelect);
+      }
 
       // type
       if (isDefined(attrs.type)) {
@@ -317,7 +324,8 @@ angular.module('sc-dropdown', [
           } else {
             scope.selected.item = item;
           }
-          return onSelect(scope.selected.item);
+          if (autoSelect) onSelect(scope.selected.item);
+          return;
         }
 
         // for multiple select
@@ -327,7 +335,7 @@ angular.module('sc-dropdown', [
         });
         if (!~index) scope.selected.items.push(item);
         else scope.selected.items.splice(index, 1);
-        onSelect(scope.selected.items);
+        if (autoSelect) onSelect(scope.selected.items);
       };
 
       if (flavor) {
@@ -341,7 +349,22 @@ angular.module('sc-dropdown', [
           '  </div>'
         ].join('');
 
+        scope.onSelect = onSelect;
+
+        if (isDefined(attrs.footer)) {
+          footer = [
+            '  <div class="sc-dropdown-footer">',
+            '    <button class="btn btn-primary btn-xs btn-block" ng-click="onSelect(',
+            flavor === 'multiple' ? 'selected.items' : 'selected.item',
+            ')">',
+            '      Apply',
+            '    </button>',
+            '  </div>',
+          ].join('');
+        }
+
         closeTag = [
+          footer,
           '</div>'
         ].join('');
 
