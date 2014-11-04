@@ -48,3 +48,5 @@ The following attributes are applicable
   - `split`: A button with split caret as dropdown
 - `btn-class`: (optional) When the `type` is single or split, the class to be applied to dropdowns button. Can be one of `primary`, `success`, `info`, `warning`, `link` and `danger`. Defaults to `link`.
 - `on-select`: (optional) A `Function` that is called when the dropdown is selected. The `item` is passed as an argument
+- `keep-label`: (optional) Always displays the label even when an item is selected from the dropdown
+- `flavor-type`: (optional) There are two flavors

@@ -3,6 +3,7 @@
   padding-top: 0;
   min-width: 200px;
   margin-left: 10px;
+  border-radius: 0;
 }
 
 .sc-dropdown.dropdown-menu > .sc-dropdown-header {
