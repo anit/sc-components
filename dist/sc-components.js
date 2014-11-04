@@ -1,7 +1,7 @@
 /**
  * sc-components
  * Simple reusable angular UI components
- * @version 0.1.15
+ * @version 0.1.16
  * Copyright(c) SafetyChanger
  * @license MIT
  */
@@ -267,9 +267,15 @@ angular.module('sc-dropdown', [
       // default
       if (isDefined(attrs.default)) {
         label = scope.$parent.$eval(attrs.default);
-        scope.selected.item = isFunction(label)
-          ? label()
-          : label;
+        if (flavor === 'multiple') {
+          scope.selected.items = isFunction(label)
+            ? label()
+            : label;
+        } else {
+          scope.selected.item = isFunction(label)
+            ? label()
+            : label;
+        }
         label = scope.selected.item;
       }
       scope.label = scope.label || label;
@@ -299,16 +305,20 @@ angular.module('sc-dropdown', [
       if (keepLabel) labelTpl = scope.label;
 
       // for multiple select, remember the selected ones in `_items`
-      if (flavor === 'multiple') scope.selected.items = [];
+      if (flavor === 'multiple' && !scope.selected.items) {
+        scope.selected.items = [];
+      }
 
       scope.select = function (item) {
         // single select
-        if (scope.selected.item && angular.equals(scope.selected.item, item)) {
-          scope.selected.item = undefined;
-        } else {
-          scope.selected.item = item;
+        if (flavor !== 'multiple') {
+          if (angular.equals(scope.selected.item, item)) {
+            scope.selected.item = undefined;
+          } else {
+            scope.selected.item = item;
+          }
+          return onSelect(scope.selected.item);
         }
-        if (flavor !== 'multiple') return onSelect(scope.selected.item);
 
         // for multiple select
         var index = -1;
