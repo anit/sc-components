@@ -199,6 +199,8 @@ angular.module('sc-dropdown', [
         dropdownClass = '';
       }
 
+      var activeSelection = 'ng-class="{ \'sc-dropdown-selected\': (selected.item || selected.items.length) }"';
+
       var listing = [
         startTag,
         '  <sc-listing class="'+ dropdownClass +'"',
@@ -212,7 +214,7 @@ angular.module('sc-dropdown', [
 
       dropdown.simple = [
         '<span class="dropdown">',
-        '  <a href class="dropdown-toggle">',
+        '  <a href class="dropdown-toggle" '+ activeSelection +'>',
         '    ' + labelTpl,
         '  </a>',
         '  ' + listing,
@@ -221,7 +223,7 @@ angular.module('sc-dropdown', [
 
       dropdown.single = [
         '<div class="btn-group" dropdown>',
-        '  <button type="button" class="'+ btnClass +' dropdown-toggle">',
+        '  <button type="button" class="'+ btnClass +' dropdown-toggle" '+ activeSelection +'>',
         '    ' + labelTpl + ' <span class="caret"></span>',
         '  </button>',
         '  ' + listing,
@@ -230,7 +232,7 @@ angular.module('sc-dropdown', [
 
       dropdown.split = [
         '<div class="btn-group" dropdown>',
-        '  <button type="button" class="'+ btnClass +'">'+ labelTpl +'</button>',
+        '  <button type="button" class="'+ btnClass +'" '+ activeSelection +'>'+ labelTpl +'</button>',
         '  <button type="button" class="'+ btnClass +' dropdown-toggle">',
         '    <span class="caret"></span>',
         '  </button>',
