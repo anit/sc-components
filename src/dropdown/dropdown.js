@@ -47,7 +47,8 @@ angular.module('sc-dropdown', [
   return {
     restrict: 'E',
     scope: {
-      items: '='
+      items: '=',
+      ngModel: '='
     },
     link: function (scope, element, attrs) {
       var isDefined = angular.isDefined;
@@ -246,6 +247,7 @@ angular.module('sc-dropdown', [
         '    ' + active,
         '    items="items"',
         '    on-item-click="select"',
+        '    ng-model="ngModel"',
         '    ' + template,
         '  </sc-listing>',
         closeTag

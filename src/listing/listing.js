@@ -28,7 +28,8 @@ angular.module('sc-listing', [])
   return {
     restrict: 'E',
     scope: {
-      items: '='
+      items: '=',
+      ngModel: '='
     },
     link: function (scope, element, attrs) {
       var isDefined = angular.isDefined;
