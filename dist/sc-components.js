@@ -1,7 +1,7 @@
 /**
  * sc-components
  * Simple reusable angular UI components
- * @version 0.1.18
+ * @version 0.1.19
  * Copyright(c) SafetyChanger
  * @license MIT
  */
@@ -197,7 +197,8 @@ angular.module('sc-dropdown', [
   return {
     restrict: 'E',
     scope: {
-      items: '='
+      items: '=',
+      ngModel: '='
     },
     link: function (scope, element, attrs) {
       var isDefined = angular.isDefined;
@@ -396,6 +397,7 @@ angular.module('sc-dropdown', [
         '    ' + active,
         '    items="items"',
         '    on-item-click="select"',
+        '    ng-model="ngModel"',
         '    ' + template,
         '  </sc-listing>',
         closeTag
@@ -618,7 +620,8 @@ angular.module('sc-listing', [])
   return {
     restrict: 'E',
     scope: {
-      items: '='
+      items: '=',
+      ngModel: '='
     },
     link: function (scope, element, attrs) {
       var isDefined = angular.isDefined;
