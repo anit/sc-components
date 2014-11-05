@@ -62,6 +62,7 @@ The following attributes are applicable
 - `flavor`: (optional) There are two flavors. `single` and `multiple`. Flavors are offered for single select and multiple select functionality.
 - `footer`: (optional) Displays a footer containing "apply" button, clicking on which the `on-select` method is called.
 - `auto-select`: (optional) Turn off calling of `on-select` method when clicked on a list item. Default is `true`
+- `template-url`: (optional) Use custom templates for each item in the list
 
 ## Classes available
 
@@ -69,3 +70,5 @@ The following attributes are applicable
 - `sc-dropdown-selected`: for the button or link label when a selection is active
 - `sc-dropdown-header`
 - `sc-dropdown-footer`
+
+For styling the dropdown, checkout `/examples/dropdown/demo.css`

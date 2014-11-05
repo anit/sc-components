@@ -58,6 +58,7 @@ angular.module('sc-dropdown', [
       var labelTpl;
       var flavor;
       var autoSelect = true;
+      var template = '';
       var startTag = '';
       var closeTag = '';
       var footer = '';
@@ -81,7 +82,7 @@ angular.module('sc-dropdown', [
       // keep-label
       var keepLabel = isDefined(attrs.keepLabel);
 
-      // auto-select
+      // auto-select (calls the onSelect method as soon as you click)
       if (isDefined(attrs.autoSelect)) {
         autoSelect = scope.$parent.$eval(attrs.autoSelect);
       }
@@ -148,7 +149,6 @@ angular.module('sc-dropdown', [
 
       // Check if the items is an array of objects or strings
       // and depending on that, build the template
-
       if (typeof scope.items[0] !== 'string') {
         labelTpl = '{{ selected.item[\''+ attribute +'\'] || label }}';
         scope.template = '<a href>{{ item[\''+ attribute +'\'] }}</a>';
@@ -232,6 +232,12 @@ angular.module('sc-dropdown', [
         dropdownClass = '';
       }
 
+      if (isDefined(attrs.templateUrl)) {
+        template = 'template-url="'+ attrs.templateUrl +'">';
+      } else {
+        template = 'template="template">';
+      }
+
       var activeSelection = 'ng-class="{ \'sc-dropdown-selected\': (selected.item || selected.items.length) }"';
 
       var listing = [
@@ -240,7 +246,7 @@ angular.module('sc-dropdown', [
         '    ' + active,
         '    items="items"',
         '    on-item-click="select"',
-        '    template="template">',
+        '    ' + template,
         '  </sc-listing>',
         closeTag
       ].join('');
