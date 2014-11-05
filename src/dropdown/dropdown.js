@@ -48,22 +48,50 @@ angular.module('sc-dropdown', [
     restrict: 'E',
     scope: {
       items: '=',
-      ngModel: '='
+      ngModel: '=',
+
+      // Call this method to determine if the filters are active
+      // Based on what this method returns, the `sc-dropdown-selected` class
+      // will be added
+      activeSelection: '&'
     },
     link: function (scope, element, attrs) {
       var isDefined = angular.isDefined;
       var isFunction = angular.isFunction;
       var validTypes = ['simple', 'single', 'split'];
       var validFlavors = ['single', 'multiple'];
+
+      // to store 3 types of dropdowns
+      // - simple
+      // - single
+      // - split
       var dropdown = {};
+
+      // template string containing the label that is displayed when dd is
+      // closed
       var labelTpl;
+
+      // 2 flavors of dropdown
+      // - single
+      // - multiple
       var flavor;
+
+      // to call the on-select method as soon as an item from the dd is selected
       var autoSelect = true;
+
+      // template for listing dropdown items
       var template = '';
+
+      // for flavored dropdowns, include header
       var startTag = '';
       var closeTag = '';
+
+      // for flavored dropdowns, include footer
       var footer = '';
+
+      // active="method" attr when item in the dropdown listing is active
       var active = '';
+
       var dropdownClass = 'dropdown-menu';
 
       // defaults
@@ -78,9 +106,12 @@ angular.module('sc-dropdown', [
       // Parse
 
       // attribute
+      // when items is an array of obj, the attribute within the object
+      // that is used to display the list item
       var attribute = scope.$parent.$eval(attrs.attribute);
 
       // keep-label
+      // Always show label
       var keepLabel = isDefined(attrs.keepLabel);
 
       // auto-select (calls the onSelect method as soon as you click)
@@ -162,7 +193,7 @@ angular.module('sc-dropdown', [
       // shown always
       if (keepLabel) labelTpl = scope.label;
 
-      // for multiple select, remember the selected ones in `_items`
+      // for multiple select, remember the selected ones in `selected.items`
       if (flavor === 'multiple' && !scope.selected.items) {
         scope.selected.items = [];
       }
@@ -239,7 +270,13 @@ angular.module('sc-dropdown', [
         template = 'template="template">';
       }
 
-      var activeSelection = 'ng-class="{ \'sc-dropdown-selected\': (selected.item || selected.items.length) }"';
+      // use scope.activeSelection() only if it was provided
+      var selectedClass;
+      if (isDefined(attrs.activeSelection)) {
+        selectedClass = 'ng-class="{ \'sc-dropdown-selected\': activeSelection() }"';
+      } else {
+        selectedClass = 'ng-class="{ \'sc-dropdown-selected\': (selected.item || selected.items.length) }"';
+      }
 
       var listing = [
         startTag,
@@ -255,7 +292,7 @@ angular.module('sc-dropdown', [
 
       dropdown.simple = [
         '<span class="dropdown">',
-        '  <a href class="dropdown-toggle" '+ activeSelection +'>',
+        '  <a href class="dropdown-toggle" '+ selectedClass +'>',
         '    ' + labelTpl,
         '  </a>',
         '  ' + listing,
@@ -264,7 +301,7 @@ angular.module('sc-dropdown', [
 
       dropdown.single = [
         '<div class="btn-group" dropdown>',
-        '  <button type="button" class="'+ btnClass +' dropdown-toggle" '+ activeSelection +'>',
+        '  <button type="button" class="'+ btnClass +' dropdown-toggle" '+ selectedClass +'>',
         '    ' + labelTpl + ' <span class="caret"></span>',
         '  </button>',
         '  ' + listing,
@@ -273,7 +310,7 @@ angular.module('sc-dropdown', [
 
       dropdown.split = [
         '<div class="btn-group" dropdown>',
-        '  <button type="button" class="'+ btnClass +'" '+ activeSelection +'>'+ labelTpl +'</button>',
+        '  <button type="button" class="'+ btnClass +'" '+ selectedClass +'>'+ labelTpl +'</button>',
         '  <button type="button" class="'+ btnClass +' dropdown-toggle">',
         '    <span class="caret"></span>',
         '  </button>',

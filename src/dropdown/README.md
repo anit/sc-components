@@ -63,6 +63,7 @@ The following attributes are applicable
 - `footer`: (optional) Displays a footer containing "apply" button, clicking on which the `on-select` method is called.
 - `auto-select`: (optional) Turn off calling of `on-select` method when clicked on a list item. Default is `true`
 - `template-url`: (optional) Use custom templates for each item in the list
+- `active-selection`: (optional) A `Function` called to determine if the `sc-dropdown-selected` class should be added.
 
 ## Classes available
 
