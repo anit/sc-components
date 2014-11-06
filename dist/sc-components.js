@@ -1,7 +1,7 @@
 /**
  * sc-components
  * Simple reusable angular UI components
- * @version 0.1.20
+ * @version 0.1.21
  * Copyright(c) SafetyChanger
  * @license MIT
  */
@@ -614,7 +614,9 @@ angular.module('sc-list', [])
     options.sort_type = options.sort_type || this.options.sort_type;
 
     angular.extend(this.options, options);
-    var items = this.Resource.query(this.options);
+    var items = this.Resource.query(this.options, function (res, headers) {
+      self.headers = headers();
+    });
     if (!this.items) this.items = [];
     this.items['$promise'] = items.$promise;
     this.$promise = items.$promise;
