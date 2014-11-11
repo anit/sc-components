@@ -321,7 +321,11 @@ angular.module('sc-dropdown', [
         '</div>'
       ].join('');
 
-      element.replaceWith($compile(dropdown[type])(scope));
+      var html = isDefined(attrs.onlyListing)
+        ? listing
+        : dropdown[type];
+
+      element.replaceWith($compile(html)(scope));
     }
   };
 }]);

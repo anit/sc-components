@@ -66,6 +66,7 @@ The following attributes are applicable
 - `template-url`: (optional) Use custom templates for each item in the list
 - `active-selection`: (optional) A `Function` called to determine if the `sc-dropdown-selected` class should be added.
 - `on-toggle`: (optional) A `Function` that is called when the dropdown is toggled. The toggled state is passed as argument.
+- `only-listing`: (optional) If this attribute is present, the output would only contain the listing. There will be no label or button.
 
 ## Classes available
 
