@@ -49,7 +49,7 @@
             <sc-dropdown
               items="arr"
               attribute="'name'"
-              label="'Choose a color'"
+              label="{{ label }}"
               type="'single'"
               btn-class="'link'"
               flavor="'single'"
@@ -57,6 +57,7 @@
               auto-select="false"
               footer
               template-url="'/dropdown/test.html'"
+              on-toggle="onToggle"
               on-select="show">
             </sc-dropdown>
           </div>

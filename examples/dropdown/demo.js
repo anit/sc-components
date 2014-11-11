@@ -10,6 +10,8 @@ angular.module('sc-dropdown-demo', [
     'blue'
   ];
 
+  $scope.label = 'Choose a color';
+
   $scope.arr = [
     {
       name: 'black'
@@ -26,6 +28,10 @@ angular.module('sc-dropdown-demo', [
 
   $scope.show = function (color) {
     $scope.color = color;
+  };
+
+  $scope.onToggle = function (open) {
+    // console.log('Am I open ? ', open);
   };
 
 }]);

@@ -43,7 +43,7 @@ angular.module('sc-dropdown', [
   label: 'Choose from the list'
 })
 
-.directive('scDropdown', ['$compile', 'scDropdownDefaults', function ($compile, defaults) {
+.directive('scDropdown', ['$compile', 'scDropdownDefaults', '$parse', function ($compile, defaults, $parse) {
   return {
     restrict: 'E',
     scope: {
@@ -53,7 +53,8 @@ angular.module('sc-dropdown', [
       // Call this method to determine if the filters are active
       // Based on what this method returns, the `sc-dropdown-selected` class
       // will be added
-      activeSelection: '&'
+      activeSelection: '&',
+      onToggle: '&'
     },
     link: function (scope, element, attrs) {
       var isDefined = angular.isDefined;
@@ -129,7 +130,10 @@ angular.module('sc-dropdown', [
 
       // label
       if (isDefined(attrs.label)) {
-        scope.label = scope.$parent.$eval(attrs.label);
+        // scope.label = scope.$parent.$eval(attrs.label);
+        attrs.$observe('label', function (val) {
+          scope.label = val;
+        });
       }
 
       // flavor
@@ -138,10 +142,9 @@ angular.module('sc-dropdown', [
         if (!~validFlavors.indexOf(flavor)) flavor = undefined;
       }
 
-      // flavor compare
-      // if (isDefined(attrs.flavorCompare)) {
-      //   flavor.compare = scope.$parent.$eval(attrs.flavorCompare);
-      // }
+      /**
+       * Compare items/item
+       */
 
       function comparator (_item) {
         if (flavor !== 'multiple') {
@@ -291,7 +294,7 @@ angular.module('sc-dropdown', [
       ].join('');
 
       dropdown.simple = [
-        '<span class="dropdown">',
+        '<span class="dropdown" on-toggle="onToggle()(open)">',
         '  <a href class="dropdown-toggle" '+ selectedClass +'>',
         '    ' + labelTpl,
         '  </a>',
@@ -300,7 +303,7 @@ angular.module('sc-dropdown', [
       ].join('');
 
       dropdown.single = [
-        '<div class="btn-group" dropdown>',
+        '<div class="btn-group" dropdown on-toggle="onToggle()(open)">',
         '  <button type="button" class="'+ btnClass +' dropdown-toggle" '+ selectedClass +'>',
         '    ' + labelTpl + ' <span class="caret"></span>',
         '  </button>',
@@ -309,7 +312,7 @@ angular.module('sc-dropdown', [
       ].join('');
 
       dropdown.split = [
-        '<div class="btn-group" dropdown>',
+        '<div class="btn-group" dropdown on-toggle="onToggle()(open)">',
         '  <button type="button" class="'+ btnClass +'" '+ selectedClass +'>'+ labelTpl +'</button>',
         '  <button type="button" class="'+ btnClass +' dropdown-toggle">',
         '    <span class="caret"></span>',

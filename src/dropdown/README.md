@@ -20,14 +20,15 @@ Simple dropdowns that remember your selection!
     items="arr"
     attribute="'name'"
     default="getDefault"
-    label="'Choose a color'"
+    label="Choose a color"
     type="'single'"
     btn-class="'link'"
     flavor="'single'"
     keep-label
     auto-select="false"
     footer
-    on-select="show">
+    on-select="show"
+    on-toggle="onToggle">
   </sc-dropdown>
 ```
 
@@ -64,6 +65,7 @@ The following attributes are applicable
 - `auto-select`: (optional) Turn off calling of `on-select` method when clicked on a list item. Default is `true`
 - `template-url`: (optional) Use custom templates for each item in the list
 - `active-selection`: (optional) A `Function` called to determine if the `sc-dropdown-selected` class should be added.
+- `on-toggle`: (optional) A `Function` that is called when the dropdown is toggled. The toggled state is passed as argument.
 
 ## Classes available
 
