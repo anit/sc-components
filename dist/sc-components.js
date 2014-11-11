@@ -1,7 +1,7 @@
 /**
  * sc-components
  * Simple reusable angular UI components
- * @version 0.1.23
+ * @version 0.1.24
  * Copyright(c) SafetyChanger
  * @license MIT
  */
@@ -471,7 +471,11 @@ angular.module('sc-dropdown', [
         '</div>'
       ].join('');
 
-      element.replaceWith($compile(dropdown[type])(scope));
+      var html = isDefined(attrs.onlyListing)
+        ? listing
+        : dropdown[type];
+
+      element.replaceWith($compile(html)(scope));
     }
   };
 }]);
