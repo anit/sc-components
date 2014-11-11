@@ -1,7 +1,7 @@
 /**
  * sc-components
  * Simple reusable angular UI components
- * @version 0.1.22
+ * @version 0.1.23
  * Copyright(c) SafetyChanger
  * @license MIT
  */
@@ -344,7 +344,7 @@ angular.module('sc-dropdown', [
 
       // if keep-label was passed as an attr, make sure the label is
       // shown always
-      if (keepLabel) labelTpl = scope.label;
+      if (keepLabel) labelTpl = '{{ label }}';
 
       // for multiple select, remember the selected ones in `selected.items`
       if (flavor === 'multiple' && !scope.selected.items) {
