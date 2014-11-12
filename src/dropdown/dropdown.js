@@ -43,24 +43,17 @@ angular.module('sc-dropdown', [
   label: 'Choose from the list'
 })
 
-.directive('scDropdown', ['$compile', 'scDropdownDefaults', '$parse', function ($compile, defaults, $parse) {
+.directive('scDropdown', ['$compile', 'scDropdownDefaults', function ($compile, defaults) {
   return {
     restrict: 'E',
-    scope: {
-      items: '=',
-      ngModel: '=',
-
-      // Call this method to determine if the filters are active
-      // Based on what this method returns, the `sc-dropdown-selected` class
-      // will be added
-      activeSelection: '&',
-      onToggle: '&'
-    },
-    link: function (scope, element, attrs) {
+    link: function ($scope, element, attrs) {
       var isDefined = angular.isDefined;
       var isFunction = angular.isFunction;
       var validTypes = ['simple', 'single', 'split'];
       var validFlavors = ['single', 'multiple'];
+
+      // Isolated scope. Don't pollute parent scope
+      var scope = $scope.$new(true);
 
       // to store 3 types of dropdowns
       // - simple
@@ -68,13 +61,12 @@ angular.module('sc-dropdown', [
       // - split
       var dropdown = {};
 
-      // template string containing the label that is displayed when dd is
-      // closed
+      // template string containing the label
       var labelTpl;
 
       // 2 flavors of dropdown
-      // - single
-      // - multiple
+      // - single select
+      // - multiple select
       var flavor;
 
       // to call the on-select method as soon as an item from the dd is selected
@@ -105,11 +97,27 @@ angular.module('sc-dropdown', [
       scope.selected = {};
 
       // Parse
+      scope.items = $scope.$eval(attrs.items);
+      $scope.$watch(attrs['items'], function (items) {
+        scope.items = items;
+      });
+
+      // scope.ngModel = $scope.$eval(attrs.ngModel);
+      $scope.$watch(attrs['ngModel'], function (ngModel) {
+        scope.ngModel = ngModel;
+      });
+      scope.activeSelection = function () {
+        return $scope.$eval(attrs.activeSelection);
+      };
+      scope.onToggle = function () {
+        return $scope.$eval(attrs.onToggle);
+      };
+      scope.isOpen = $scope.$eval(attrs.isOpen);
 
       // attribute
       // when items is an array of obj, the attribute within the object
       // that is used to display the list item
-      var attribute = scope.$parent.$eval(attrs.attribute);
+      var attribute = $scope.$eval(attrs.attribute);
 
       // keep-label
       // Always show label
@@ -117,12 +125,12 @@ angular.module('sc-dropdown', [
 
       // auto-select (calls the onSelect method as soon as you click)
       if (isDefined(attrs.autoSelect)) {
-        autoSelect = scope.$parent.$eval(attrs.autoSelect);
+        autoSelect = $scope.$eval(attrs.autoSelect);
       }
 
       // type
       if (isDefined(attrs.type)) {
-        type = scope.$parent.$eval(attrs.type);
+        type = $scope.$eval(attrs.type);
         type = !~validTypes.indexOf(type)
           ? 'simple'
           : type;
@@ -130,7 +138,7 @@ angular.module('sc-dropdown', [
 
       // label
       if (isDefined(attrs.label)) {
-        // scope.label = scope.$parent.$eval(attrs.label);
+        // scope.label = $scope.$eval(attrs.label);
         attrs.$observe('label', function (val) {
           scope.label = val;
         });
@@ -138,28 +146,13 @@ angular.module('sc-dropdown', [
 
       // flavor
       if (isDefined(attrs.flavor)) {
-        flavor = scope.$parent.$eval(attrs.flavor);
+        flavor = $scope.$eval(attrs.flavor);
         if (!~validFlavors.indexOf(flavor)) flavor = undefined;
-      }
-
-      /**
-       * Compare items/item
-       */
-
-      function comparator (_item) {
-        if (flavor !== 'multiple') {
-          return angular.equals(_item, scope.selected.item);
-        }
-
-        // multiple
-        return scope.selected.items.filter(function (item) {
-          return angular.equals(_item, item);
-        }).length;
       }
 
       // default
       if (isDefined(attrs.default)) {
-        label = scope.$parent.$eval(attrs.default);
+        label = $scope.$eval(attrs.default);
         if (flavor === 'multiple') {
           scope.selected.items = isFunction(label)
             ? label()
@@ -175,12 +168,12 @@ angular.module('sc-dropdown', [
 
       // btn-class
       if (isDefined(attrs.btnClass)) {
-        btnDefault = scope.$parent.$eval(attrs.btnClass);
+        btnDefault = $scope.$eval(attrs.btnClass);
       }
       btnClass = btnClass + btnDefault;
 
       // on-select
-      var onSelect = scope.$parent.$eval(attrs.onSelect);
+      var onSelect = $scope.$eval(attrs.onSelect);
 
       // Check if the items is an array of objects or strings
       // and depending on that, build the template
@@ -209,7 +202,10 @@ angular.module('sc-dropdown', [
           } else {
             scope.selected.item = item;
           }
-          if (autoSelect) onSelect(scope.selected.item);
+          if (autoSelect) {
+            onSelect(scope.selected.item);
+            if (flavor) scope.close();
+          }
           return;
         }
 
@@ -260,15 +256,34 @@ angular.module('sc-dropdown', [
 
         // Close single and multiple select dropdowns
         scope.close = function () {
-          scope.$$childHead.isOpen = false;
+          scope.isOpen = false;
+          if (isDefined(attrs.isOpen)) $scope.isOpen = false;
         };
 
         active = 'active="active"';
         dropdownClass = '';
       }
 
+      /**
+       * Compare items/item
+       * @param {Object|String} _item (selected item)
+       * @return {Boolean}
+       */
+
+      function comparator (_item) {
+        if (flavor !== 'multiple') {
+          return angular.equals(_item, scope.selected.item);
+        }
+        // multiple
+        return scope.selected.items.filter(function (item) {
+          return angular.equals(_item, item);
+        }).length;
+      }
+
       if (isDefined(attrs.templateUrl)) {
         template = 'template-url="'+ attrs.templateUrl +'">';
+      } else if (isDefined(attrs.template)) {
+        template = 'template="'+ $scope.$eval(attrs.template) +'">';
       } else {
         template = 'template="template">';
       }
@@ -294,7 +309,7 @@ angular.module('sc-dropdown', [
       ].join('');
 
       dropdown.simple = [
-        '<span class="dropdown" on-toggle="onToggle()(open)">',
+        '<span class="dropdown" is-open="isOpen" on-toggle="onToggle()(open)">',
         '  <a href class="dropdown-toggle" '+ selectedClass +'>',
         '    ' + labelTpl,
         '  </a>',
@@ -303,7 +318,7 @@ angular.module('sc-dropdown', [
       ].join('');
 
       dropdown.single = [
-        '<div class="btn-group" dropdown on-toggle="onToggle()(open)">',
+        '<div class="btn-group" dropdown is-open="isOpen" on-toggle="onToggle()(open)">',
         '  <button type="button" class="'+ btnClass +' dropdown-toggle" '+ selectedClass +'>',
         '    ' + labelTpl + ' <span class="caret"></span>',
         '  </button>',
@@ -312,7 +327,7 @@ angular.module('sc-dropdown', [
       ].join('');
 
       dropdown.split = [
-        '<div class="btn-group" dropdown on-toggle="onToggle()(open)">',
+        '<div class="btn-group" dropdown is-open="isOpen" on-toggle="onToggle()(open)">',
         '  <button type="button" class="'+ btnClass +'" '+ selectedClass +'>'+ labelTpl +'</button>',
         '  <button type="button" class="'+ btnClass +' dropdown-toggle">',
         '    <span class="caret"></span>',

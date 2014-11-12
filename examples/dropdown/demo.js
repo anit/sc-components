@@ -31,7 +31,7 @@ angular.module('sc-dropdown-demo', [
   };
 
   $scope.onToggle = function (open) {
-    // console.log('Am I open ? ', open);
+    console.log('Am I open ? ', open);
   };
 
 }]);
