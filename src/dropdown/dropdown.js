@@ -283,7 +283,8 @@ angular.module('sc-dropdown', [
       if (isDefined(attrs.templateUrl)) {
         template = 'template-url="'+ attrs.templateUrl +'">';
       } else if (isDefined(attrs.template)) {
-        template = 'template="'+ $scope.$eval(attrs.template) +'">';
+        scope.tpl = $scope.$eval(attrs.template)
+        template = 'template="tpl">';
       } else {
         template = 'template="template">';
       }
