@@ -1,7 +1,7 @@
 /**
  * sc-components
  * Simple reusable angular UI components
- * @version 0.1.26
+ * @version 0.1.27
  * Copyright(c) SafetyChanger
  * @license MIT
  */
@@ -460,8 +460,8 @@ angular.module('sc-dropdown', [
       ].join('');
 
       dropdown.simple = [
-        '<span class="dropdown" is-open="isOpen" on-toggle="onToggle()(open)">',
-        '  <a href class="dropdown-toggle" '+ selectedClass +'>',
+        '<span class="dropdown" dropdown is-open="isOpen" on-toggle="onToggle()(open)">',
+        '  <a href class="dropdown-toggle" dropdown-toggle '+ selectedClass +'>',
         '    ' + labelTpl,
         '  </a>',
         '  ' + listing,
@@ -470,7 +470,7 @@ angular.module('sc-dropdown', [
 
       dropdown.single = [
         '<div class="btn-group" dropdown is-open="isOpen" on-toggle="onToggle()(open)">',
-        '  <button type="button" class="'+ btnClass +' dropdown-toggle" '+ selectedClass +'>',
+        '  <button type="button" class="'+ btnClass +' dropdown-toggle" dropdown-toggle '+ selectedClass +'>',
         '    ' + labelTpl + ' <span class="caret"></span>',
         '  </button>',
         '  ' + listing,
@@ -479,7 +479,7 @@ angular.module('sc-dropdown', [
 
       dropdown.split = [
         '<div class="btn-group" dropdown is-open="isOpen" on-toggle="onToggle()(open)">',
-        '  <button type="button" class="'+ btnClass +'" '+ selectedClass +'>'+ labelTpl +'</button>',
+        '  <button type="button" class="'+ btnClass +'" dropdown-toggle '+ selectedClass +'>'+ labelTpl +'</button>',
         '  <button type="button" class="'+ btnClass +' dropdown-toggle">',
         '    <span class="caret"></span>',
         '  </button>',
