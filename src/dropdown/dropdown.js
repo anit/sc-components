@@ -53,7 +53,7 @@ angular.module('sc-dropdown', [
       var validFlavors = ['single', 'multiple'];
 
       // Isolated scope. Don't pollute parent scope
-      var scope = $scope.$new(true);
+      var scope = $scope.$new();
 
       // to store 3 types of dropdowns
       // - simple

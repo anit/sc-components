@@ -28,7 +28,7 @@ angular.module('sc-listing', [])
   return {
     restrict: 'E',
     link: function ($scope, element, attrs) {
-      var scope = $scope.$new(true);
+      var scope = $scope.$new();
       var isDefined = angular.isDefined;
       var deferred = $q.defer();
       var promise = deferred.promise;
