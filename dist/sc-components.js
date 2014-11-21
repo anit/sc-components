@@ -1,7 +1,7 @@
 /**
  * sc-components
  * Simple reusable angular UI components
- * @version 0.1.27
+ * @version 0.1.28
  * Copyright(c) SafetyChanger
  * @license MIT
  */
@@ -203,7 +203,7 @@ angular.module('sc-dropdown', [
       var validFlavors = ['single', 'multiple'];
 
       // Isolated scope. Don't pollute parent scope
-      var scope = $scope.$new(true);
+      var scope = $scope.$new();
 
       // to store 3 types of dropdowns
       // - simple
@@ -682,7 +682,7 @@ angular.module('sc-listing', [])
   return {
     restrict: 'E',
     link: function ($scope, element, attrs) {
-      var scope = $scope.$new(true);
+      var scope = $scope.$new();
       var isDefined = angular.isDefined;
       var deferred = $q.defer();
       var promise = deferred.promise;
