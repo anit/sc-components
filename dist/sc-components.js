@@ -1,7 +1,7 @@
 /**
  * sc-components
  * Simple reusable angular UI components
- * @version 0.1.29
+ * @version 0.1.30
  * Copyright(c) SafetyChanger
  * @license MIT
  */
@@ -404,7 +404,7 @@ angular.module('sc-dropdown', [
 
       if (search) {
         var delay;
-        scope.$watch('term', function (term) {
+        scope.$watch('searchTerm', function (term) {
           if (!term) return resetItems();
           if (term.length <= 2) return resetItems();
 
@@ -437,7 +437,7 @@ angular.module('sc-dropdown', [
 
         searchTpl = [
           '<div class="sc-dropdown-search">',
-          '  <input type="text" ng-model="term" class="form-control" placeholder="Enter assignee name">',
+          '  <input type="text" ng-model="searchTerm" class="form-control" placeholder="Enter assignee name">',
           '</div>'
         ].join('');
       }
