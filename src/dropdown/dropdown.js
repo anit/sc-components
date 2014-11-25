@@ -43,7 +43,17 @@ angular.module('sc-dropdown', [
   label: 'Choose from the list'
 })
 
-.directive('scDropdown', ['$compile', 'scDropdownDefaults', function ($compile, defaults) {
+.service('scDropdownApi', ['$http', function ($http) {
+  return {
+    get: function (term, url) {
+      return $http({ method: 'GET', url: url + '&filter=' + term });
+    }
+  }
+}])
+
+.directive('scDropdown', [
+  '$compile', 'scDropdownDefaults', 'scDropdownApi', '$timeout',
+  function ($compile, defaults, Api, $timeout) {
   return {
     restrict: 'E',
     link: function ($scope, element, attrs) {
@@ -85,6 +95,13 @@ angular.module('sc-dropdown', [
       // active="method" attr when item in the dropdown listing is active
       var active = '';
 
+      // Search
+      // - static
+      // - dynamic
+      var search;
+      var searchUrl;
+      var searchTpl = '';
+
       var dropdownClass = 'dropdown-menu';
 
       // defaults
@@ -92,6 +109,9 @@ angular.module('sc-dropdown', [
       var btnDefault = defaults.btnDefault;
       var type = defaults.type;
       var label = defaults.label;
+
+      // to store original items
+      var original = $scope.$eval(attrs.items);
 
       // Will contain `item` (single select) and `items` (multiple select)
       scope.selected = {};
@@ -134,6 +154,15 @@ angular.module('sc-dropdown', [
         type = !~validTypes.indexOf(type)
           ? 'simple'
           : type;
+      }
+
+      // search
+      if (isDefined(attrs.search) && attrs.search in { dynamic: 1, static: 1 }) {
+        search = attrs.search;
+      }
+
+      if (search === 'dynamic' && isDefined(attrs.searchUrl)) {
+        searchUrl = $scope.$eval(attrs.searchUrl);
       }
 
       // label
@@ -219,15 +248,65 @@ angular.module('sc-dropdown', [
         if (autoSelect) onSelect(scope.selected.items);
       };
 
+      /**
+       * Search
+       */
+
+      if (search) {
+        var delay;
+        scope.$watch('term', function (term) {
+          if (!term) return resetItems();
+          if (term.length <= 2) return resetItems();
+
+          // Static search (search within the given list)
+          if (search === 'static') {
+            scope.items = scope.items.filter(function (item) {
+              var str = (typeof item === 'string')
+                ? item
+                : item[attribute];
+              console.log(str.match(term), str, term);
+              var regex = new RegExp(term, 'ig');
+              return str.match(regex);
+            });
+            return;
+          }
+
+          // Dynamic search (search through api)
+          $timeout.cancel(delay);
+          delay = $timeout(function () {
+            scope.loading = Api.get(term, searchUrl)
+              .then(function (res) {
+                scope.items = res.data;
+                delete scope.loading;
+              })
+              .catch(function () {
+                delete scope.loading;
+              });
+          }, 300);
+        });
+
+        searchTpl = [
+          '<div class="sc-dropdown-search">',
+          '  <input type="text" ng-model="term" class="form-control" placeholder="Enter assignee name">',
+          '</div>'
+        ].join('');
+      }
+
+      function resetItems () {
+        scope.items = original;
+      }
+
       if (flavor) {
         startTag = [
           '<div class="sc-dropdown '+ dropdownClass +'" ng-click="$event.stopPropagation()">',
           '  <div class="sc-dropdown-header">',
+          '    <span ng-if="loading" class="loading"><i class="fa fa-spinner fa-spin"></i></span>',
           '    <strong>{{ label }}</strong>',
           '    <a href ng-click="close()" class="pull-right">',
           '      <span aria-hidden="true">&times;</span>',
           '    </a>',
-          '  </div>'
+          '  </div>',
+          '  ' + searchTpl
         ].join('');
 
         scope.onSelect = onSelect;

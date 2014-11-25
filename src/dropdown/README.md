@@ -67,6 +67,9 @@ The following attributes are applicable
 - `active-selection`: (optional) A `Function` called to determine if the `sc-dropdown-selected` class should be added.
 - `on-toggle`: (optional) A `Function` that is called when the dropdown is toggled. The toggled state is passed as argument.
 - `only-listing`: (optional) If this attribute is present, the output would only contain the listing. There will be no label or button.
+- `search`: (optional) Search the listing. There are two types, one is `static` which just filters the items by the entered text. `dynamic` uses `search-url` attribute to query the results.
+- `search-url`: (optional) Filters using this url.
+
 
 ## Classes available
 
@@ -74,5 +77,6 @@ The following attributes are applicable
 - `sc-dropdown-selected`: for the button or link label when a selection is active
 - `sc-dropdown-header`
 - `sc-dropdown-footer`
+- `sc-dropdown-search`
 
 For styling the dropdown, checkout `/examples/dropdown/demo.css`
