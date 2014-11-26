@@ -31,7 +31,7 @@ angular.module('sc-confirm', [
  */
 
 .constant('scConfirmDefaults', {
-  message: 'Are you sure ?',
+  message: 'Are you sure?',
   btnPlacement: 'right'
 })
 
@@ -40,11 +40,8 @@ angular.module('sc-confirm', [
   function ($modal, $compile, $parse, $http, $q, $templateCache, defaults) {
     return {
       restrict: 'A',
-      scope: {
-        scConfirm: '&',
-        scOnCancel: '&'
-      },
-      link: function(scope, element, attrs) {
+      link: function($scope, element, attrs) {
+        var scope = $scope.$new();
         var isDefined = angular.isDefined;
         var deferred = $q.defer();
         var promise = deferred.promise;
@@ -75,16 +72,33 @@ angular.module('sc-confirm', [
           btnPlacement = scope.$parent.$eval(attrs.btnPlacement);
         }
 
+        // sc-confirm-message
+        scope.message = attrs.scConfirmMessage || defaults.message;
+        attrs.$observe('scConfirmMessage', function (msg) {
+          scope.message = msg || defaults.message;
+        });
+
+        // console.log($parse(attrs.scConfirm));
+        // sc-confirm
+        function onConfirm () {
+          $parse(attrs.scConfirm)($scope);
+        }
+
+        // sc-on-cancel
+        function onCancel () {
+          $parse(attrs.scOnCancel)($scope);
+        }
+
         if (!~validPlacements.indexOf(btnPlacement)) {
           btnPlacement = defaults.btnPlacement;
         }
 
         promise.then(function (tpl) {
-          var message = attrs.scConfirmMessage || defaults.message;
-          var modalHtml = [
+
+          var template = [
             '<div class="modal-header">',
             '  <button type="button" class="close" ng-click="cancel()" aria-hidden="true">&times;</button>',
-            '  <h4 class="modal-title">'+ message +'</h4>',
+            '  <h4 class="modal-title">{{ message }}</h4>',
             '</div>',
             '<div class="modal-body">',
             '  '+ tpl +'&nbsp;',
@@ -97,15 +111,15 @@ angular.module('sc-confirm', [
 
           element.bind('click', function () {
             var modalInstance = $modal.open({
-              template: modalHtml,
+              template: template,
               controller: 'ModalInstanceCtrl',
-              scope: scope.$parent,
+              scope: scope,
               resolve: {
-                scOnCancel: function () { return scope.scOnCancel; }
+                onCancel: function () { return onCancel; }
               }
             });
 
-            modalInstance.result.then(scope.scConfirm);
+            modalInstance.result.then(onConfirm);
           });
         });
       }
@@ -118,11 +132,11 @@ angular.module('sc-confirm', [
  */
 
 .controller('ModalInstanceCtrl', [
-  '$scope', '$modalInstance', 'scOnCancel',
-  function ($scope, $modalInstance, scOnCancel) {
+  '$scope', '$modalInstance', 'onCancel',
+  function ($scope, $modalInstance, onCancel) {
     $scope.ok = $modalInstance.close;
     $scope.cancel = function () {
-      $scope.$parent.$eval(scOnCancel);
+      if (onCancel) onCancel();
       $modalInstance.dismiss('cancel');
     };
   }

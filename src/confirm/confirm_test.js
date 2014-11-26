@@ -114,7 +114,7 @@ describe('sc-confirm', function () {
   it('should display default message when none provided', function () {
     setup('no-template');
     var title = $document.find('.modal-title');
-    expect(title.text()).toContain('Are you sure ?');
+    expect(title.text()).toContain('Are you sure?');
   });
 
   describe('btn-placement', function () {
