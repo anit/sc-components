@@ -1,7 +1,7 @@
 /**
  * sc-components
  * Simple reusable angular UI components
- * @version 0.1.30
+ * @version 0.1.31
  * Copyright(c) SafetyChanger
  * @license MIT
  */
@@ -424,13 +424,13 @@ angular.module('sc-dropdown', [
           // Dynamic search (search through api)
           $timeout.cancel(delay);
           delay = $timeout(function () {
-            scope.loading = Api.get(term, searchUrl)
+            scope.searching = Api.get(term, searchUrl)
               .then(function (res) {
                 scope.items = res.data;
-                delete scope.loading;
+                delete scope.searching;
               })
               .catch(function () {
-                delete scope.loading;
+                delete scope.searching;
               });
           }, 300);
         });
@@ -450,7 +450,7 @@ angular.module('sc-dropdown', [
         startTag = [
           '<div class="sc-dropdown '+ dropdownClass +'" ng-click="$event.stopPropagation()">',
           '  <div class="sc-dropdown-header">',
-          '    <span ng-if="loading" class="loading"><i class="fa fa-spinner fa-spin"></i></span>',
+          '    <span ng-if="searching" class="loading"><i class="fa fa-spinner fa-spin"></i></span>',
           '    <strong>{{ label }}</strong>',
           '    <a href ng-click="close()" class="pull-right">',
           '      <span aria-hidden="true">&times;</span>',
