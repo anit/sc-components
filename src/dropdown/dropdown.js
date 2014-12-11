@@ -48,7 +48,7 @@ angular.module('sc-dropdown', [
     get: function (term, url) {
       return $http({ method: 'GET', url: url + '&filter=' + term });
     }
-  }
+  };
 }])
 
 .directive('scDropdown', [
@@ -362,7 +362,7 @@ angular.module('sc-dropdown', [
       if (isDefined(attrs.templateUrl)) {
         template = 'template-url="'+ attrs.templateUrl +'">';
       } else if (isDefined(attrs.template)) {
-        scope.tpl = $scope.$eval(attrs.template)
+        scope.tpl = $scope.$eval(attrs.template);
         template = 'template="tpl">';
       } else {
         template = 'template="template">';
