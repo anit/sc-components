@@ -63,8 +63,7 @@ gulp.task('concat', ['bump'], function () {
   return gulp.src([
       './src/*.js',
       './src/*/*.js',
-      '!./src/*/*_test.js',     // ignore test files
-      '!./src/form-input/**'    // ignore form-input
+      '!./src/*/*_test.js'     // ignore test files
     ])
     .pipe(sourcemaps.init())
     .pipe(concat(pkg.name +'.js'))
