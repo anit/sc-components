@@ -12,7 +12,6 @@
  */
 
 var express = require('express');
-var sleep = require('sleep');
 var _url = require('url');
 var app = express();
 
@@ -62,9 +61,9 @@ app.get('/items', function (req, res) {
   _items = _items.slice(limit * page, limit * (page + 1));
 
   // timeout
-  sleep.sleep(2);
-
-  res.json(_items);
+  setTimeout(function(){
+    res.json(_items);
+  }, 2000);
 });
 
 app.listen(port);
