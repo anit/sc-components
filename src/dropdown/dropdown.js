@@ -65,6 +65,10 @@ angular.module('sc-dropdown', [
       // Isolated scope. Don't pollute parent scope
       var scope = $scope.$new();
 
+      $scope.$on('$destroy', function () {
+        scope.$destroy();
+      });
+
       // to store 3 types of dropdowns
       // - simple
       // - single

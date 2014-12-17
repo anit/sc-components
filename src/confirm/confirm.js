@@ -50,6 +50,10 @@ angular.module('sc-confirm', [
         var template;
         var templateUrl;
 
+        $scope.$on('$destroy', function () {
+          scope.$destroy();
+        });
+
         // Parse attrs
 
         // template and template-url

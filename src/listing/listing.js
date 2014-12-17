@@ -39,6 +39,10 @@ angular.module('sc-listing', [])
         var template;
         var templateUrl;
 
+        $scope.$on('$destroy', function () {
+          scope.$destroy();
+        });
+
         // Parse attrs
 
         // on-item-click
