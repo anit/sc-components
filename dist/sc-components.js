@@ -1,7 +1,7 @@
 /**
  * sc-components
  * Simple reusable angular UI components
- * @version 0.1.33
+ * @version 0.1.34
  * Copyright(c) SafetyChanger
  * @license MIT
  */
@@ -67,6 +67,10 @@ angular.module('sc-confirm', [
         var btnPlacement;
         var template;
         var templateUrl;
+
+        $scope.$on('$destroy', function () {
+          scope.$destroy();
+        });
 
         // Parse attrs
 
@@ -212,7 +216,7 @@ angular.module('sc-dropdown', [
     get: function (term, url) {
       return $http({ method: 'GET', url: url + '&filter=' + term });
     }
-  }
+  };
 }])
 
 .directive('scDropdown', [
@@ -228,6 +232,10 @@ angular.module('sc-dropdown', [
 
       // Isolated scope. Don't pollute parent scope
       var scope = $scope.$new();
+
+      $scope.$on('$destroy', function () {
+        scope.$destroy();
+      });
 
       // to store 3 types of dropdowns
       // - simple
@@ -526,7 +534,7 @@ angular.module('sc-dropdown', [
       if (isDefined(attrs.templateUrl)) {
         template = 'template-url="'+ attrs.templateUrl +'">';
       } else if (isDefined(attrs.template)) {
-        scope.tpl = $scope.$eval(attrs.template)
+        scope.tpl = $scope.$eval(attrs.template);
         template = 'template="tpl">';
       } else {
         template = 'template="template">';
@@ -785,6 +793,10 @@ angular.module('sc-listing', [])
         var itemClass = ['list-item sc-list-item'];
         var template;
         var templateUrl;
+
+        $scope.$on('$destroy', function () {
+          scope.$destroy();
+        });
 
         // Parse attrs
 
