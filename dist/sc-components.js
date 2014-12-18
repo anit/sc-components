@@ -1,7 +1,7 @@
 /**
  * sc-components
  * Simple reusable angular UI components
- * @version 0.1.34
+ * @version 0.1.35
  * Copyright(c) SafetyChanger
  * @license MIT
  */
@@ -617,7 +617,17 @@ angular.module('sc-enter', [])
 
 .directive('scEnter', function () {
   return function (scope, element, attrs) {
-    element.bind('keydown keypress', function (event) {
+    element.bind('keydown keypress', enter);
+
+    scope.$on('$destroy', function () {
+      element.unbind('keydown keypress', enter);
+    });
+
+    /**
+     * Enter
+     */
+
+    function enter (event) {
       if (event.which === 13) {
         scope.$apply(function () {
           scope.$eval(attrs.scEnter, {
@@ -627,7 +637,7 @@ angular.module('sc-enter', [])
 
         event.preventDefault();
       }
-    });
+    }
   };
 });
 
@@ -780,8 +790,8 @@ angular.module('sc-list', [])
 angular.module('sc-listing', [])
 
 .directive('scListing', [
-  '$compile', '$http', '$q', '$templateCache', '$location',
-  function ($compile, $http, $q, $templateCache, $location) {
+  '$compile', '$http', '$q', '$templateCache',
+  function ($compile, $http, $q, $templateCache) {
     return {
       restrict: 'E',
       link: function ($scope, element, attrs) {
