@@ -96,7 +96,7 @@ angular.module('sc-listing', [])
 
           var template = [
             '<ul class="'+ classes +'">',
-            '  <li class="'+ itemClass +'" ng-repeat="item in items" ng-click="onItemClick(item, $index)" ng-class="{ \'active\': active(item), \'last\': $last, \'first\': $first }" }">',
+            '  <li class="'+ itemClass +'" ng-repeat="item in items track by $index" ng-click="onItemClick(item, $index)" ng-class="{ \'active\': active(item), \'last\': $last, \'first\': $first }" }">',
             '    '+ tpl,
             '  </li>',
             '</ul>'
