@@ -25,8 +25,8 @@
 angular.module('sc-listing', [])
 
 .directive('scListing', [
-  '$compile', '$http', '$q', '$templateCache', '$location',
-  function ($compile, $http, $q, $templateCache, $location) {
+  '$compile', '$http', '$q', '$templateCache',
+  function ($compile, $http, $q, $templateCache) {
     return {
       restrict: 'E',
       link: function ($scope, element, attrs) {
