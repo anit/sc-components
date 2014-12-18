@@ -1,7 +1,7 @@
 /**
  * sc-components
  * Simple reusable angular UI components
- * @version 0.1.35
+ * @version 0.1.36
  * Copyright(c) SafetyChanger
  * @license MIT
  */
@@ -861,7 +861,7 @@ angular.module('sc-listing', [])
 
           var template = [
             '<ul class="'+ classes +'">',
-            '  <li class="'+ itemClass +'" ng-repeat="item in items" ng-click="onItemClick(item, $index)" ng-class="{ \'active\': active(item), \'last\': $last, \'first\': $first }" }">',
+            '  <li class="'+ itemClass +'" ng-repeat="item in items track by $index" ng-click="onItemClick(item, $index)" ng-class="{ \'active\': active(item), \'last\': $last, \'first\': $first }" }">',
             '    '+ tpl,
             '  </li>',
             '</ul>'
