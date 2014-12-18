@@ -18,7 +18,17 @@ angular.module('sc-enter', [])
 
 .directive('scEnter', function () {
   return function (scope, element, attrs) {
-    element.bind('keydown keypress', function (event) {
+    element.bind('keydown keypress', enter);
+
+    scope.$on('$destroy', function () {
+      element.unbind('keydown keypress', enter);
+    });
+
+    /**
+     * Enter
+     */
+
+    function enter (event) {
       if (event.which === 13) {
         scope.$apply(function () {
           scope.$eval(attrs.scEnter, {
@@ -28,6 +38,6 @@ angular.module('sc-enter', [])
 
         event.preventDefault();
       }
-    });
+    }
   };
 });
