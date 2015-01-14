@@ -99,15 +99,12 @@ angular.module('sc-list', [])
   List.prototype.fetch = function (options) {
     var self = this;
     options = options || {};
-    options.limit = options.limit || this.options.limit;
-    options.page = options.page || this.options.page;
-    options.sort_by = options.sort_by || this.options.sort_by;
-    options.sort_type = options.sort_type || this.options.sort_type;
 
     angular.extend(this.options, options);
     var items = this.Resource.query(this.options, function (res, headers) {
       self.headers = headers();
     });
+
     if (!this.items) this.items = [];
     this.items['$promise'] = items.$promise;
     this.$promise = items.$promise;
