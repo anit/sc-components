@@ -86,6 +86,22 @@ angular.module('sc-list', [])
     this.options.page = parseInt(page, 10);
     return this.fetch();
   };
+  
+  /**
+   * load more
+   *
+   * @return {Array}
+   * @api public
+   */
+  List.prototype.more = function () {
+    var pageNo = this.items && this.items.length ?
+        this.options.page + 1 :
+        this.options.page;
+
+    return this.fetch({ 
+      page: pageNo
+    }, true);
+  };
 
   /**
    * fetch
@@ -96,24 +112,26 @@ angular.module('sc-list', [])
    */
 
   List.prototype.refresh =
-  List.prototype.fetch = function (options) {
+  List.prototype.fetch = function (options, append) {
     var self = this;
     options = options || {};
-    options.limit = options.limit || this.options.limit;
-    options.page = options.page || this.options.page;
-    options.sort_by = options.sort_by || this.options.sort_by;
-    options.sort_type = options.sort_type || this.options.sort_type;
 
     angular.extend(this.options, options);
     var items = this.Resource.query(this.options, function (res, headers) {
       self.headers = headers();
     });
+
     if (!this.items) this.items = [];
     this.items['$promise'] = items.$promise;
     this.$promise = items.$promise;
     items.$promise.then(function () {
-      self.items = items;
+      if (append) {
+        self.items.push.apply(self.items, items);
+      } else {
+        self.items = items;
+      }
     });
+
     return items;
   };
 
