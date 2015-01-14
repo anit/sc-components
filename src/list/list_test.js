@@ -97,6 +97,35 @@ describe('sc-list', function () {
     });
   });
 
+  describe('.more()', function () {
+    it('should fetch new items if list is empty', function () {
+      var list = new List(Item);
+      var req = httpBackend.expect('GET', /\/items/);
+      var result = list.more();
+      req.respond(items);
+      httpBackend.flush();
+      result = angular.toJson(result);
+      expect(result).toEqual(angular.toJson(items));
+      expect(list.options.page).toBe(0);
+    });
+
+    it('should append new items in the list', function () {
+      var list = new List(Item);
+
+      var req1 = httpBackend.expect('GET', /\/items/);
+      list.more();
+      req1.respond(items);
+      httpBackend.flush();
+
+      var req2 = httpBackend.expect('GET', /\/items/);
+      list.more();
+      req2.respond(items);
+      httpBackend.flush();
+
+      expect(list.items.length).toBe(items.length*2);
+    });
+  });
+
   describe('.sort() and options.filter', function () {
     it('should set proper query params', function () {
       var list = new List(Item, { filter: 'ite', sort_type: -1 });
